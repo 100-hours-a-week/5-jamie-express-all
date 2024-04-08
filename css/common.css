@@ -3,7 +3,6 @@
 body {
     display: flex;
     flex-direction: column;
-    font-family: "Noto Sans KR", sans-serif;
     background-color: #f4f5f7;
 }
 
@@ -20,13 +19,13 @@ header .block {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 500px;
+    width: 600px;
     min-width: 300px;
     position: relative;
 }
 header span {
-    font-weight: 300;
-    font-size: 32px;
+    font-weight: 500;
+    font-size: 28px;
     line-height: 32px;
 }
 header .block .user {
@@ -59,7 +58,7 @@ header .block .back {
 
 header .block .modal {
     position: absolute;
-    top: 50px;
+    top: 40px;
     right: 5px;
     width: 100px;
     background-color: #d9d9d9;
@@ -88,7 +87,7 @@ header .block .modal .modal-item {
 }
 
 .content {
-    width: 500px;
+    width: 600px;
     display: flex;
     align-items: center;
     flex-direction: column;

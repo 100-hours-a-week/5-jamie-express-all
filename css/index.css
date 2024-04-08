@@ -13,8 +13,8 @@
 .formbox .title {
     display: flex;
     justify-content: center;
-    font-size: 25px;
-    font-weight: 500;
+    font-size: 23px;
+    font-weight: 700;
     line-height: 38px;
 }
 .formbox .inputbox {
@@ -33,7 +33,7 @@
 }
 .formbox .inputbox .item .input-name {
     padding: 5px 0;
-    font-size: 14px;
+    font-size: 15px;
 }
 .formbox .inputbox .item .input {
     height: 25px;
@@ -62,7 +62,7 @@
     margin-top: 10px;
     line-height: 16px;
     font-size: 12px;
-    font-weight: 300;
+    font-weight: 200;
 
     &:hover {
         cursor: pointer;
@@ -74,7 +74,7 @@
 .formbox .inputbox .item .text {
     font-weight: 300;
     line-height: 16px;
-    font-size: 13px;
+    font-size: 14px;
 }
 .item .profile-image {
     display: flex;
@@ -109,7 +109,7 @@
     height: 30px;
 
     border: 1px solid #fff;
-    background-color: #000000ed;
+    background-color: #000000;
     border-radius: 20px;
     opacity: 0.5;
     color: #fff;

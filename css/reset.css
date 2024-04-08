@@ -102,7 +102,7 @@ section {
 }
 body {
     line-height: 25px;
-    font-family: "Nanum Gothic", sans-serif;
+    font-family: "kopubworld", sans-serif;
 }
 ol,
 ul {
@@ -129,4 +129,10 @@ table {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+@font-face {
+    font-family: "kopubworld";
+    src: url(../style/font/KoPubWorld\ Dotum\ Light.ttf) format("truetype");
+    font-weight: 400;
 }
