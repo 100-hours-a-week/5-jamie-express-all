@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>아무 말 대잔치</title>
+        <link rel="stylesheet" href="./css/index.css" />
+    </head>
+
+    <body>
+        <header>
+            <div class="block">
+                <span>아무 말 대잔치</span>
+                <img class="user" src="./images/userimage.png" alt="user" />
+                <div class="modal">
+                    <div class="modal-content">
+                        <a class="modal-item" href="/"> 회원정보 수정 </a>
+                        <a class="modal-item" href="/"> 비밀번호 수정 </a>
+                        <a class="modal-item logoutbtn" href="/"> 로그아웃 </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section class="container">
+            <form class="formbox">
+                <div class="title">회원 정보 수정</div>
+                <section class="inputbox">
+                    <div class="item">
+                        <span class="input-name">프로필 사진*</span>
+                        <section class="profile-image">
+                            <img src="./images/userimage.png" alt="user" />
+                            <div class="profile-image-overlay">
+                                <span>변경</span>
+                            </div>
+                            <input type="file" id="profile-image" />
+                        </section>
+                    </div>
+                </section>
+                <section class="inputbox">
+                    <div class="item">
+                        <span class="input-name">이메일</span>
+                        <span class="text">emailexample@gmail.com</span>
+                    </div>
+                    <div class="item">
+                        <span class="input-name">닉네임</span>
+                        <input class="input" placeholder="닉네임을 입력하세요." />
+                        <span class="helper">* helper text</span>
+                    </div>
+                </section>
+            </form>
+            <button class="loginbtn">수정하기</button>
+            <span class="additional">회원 탈퇴</span>
+
+            <div class="toast">
+                <span>수정완료</span>
+            </div>
+        </section>
+    </body>
+</html>
