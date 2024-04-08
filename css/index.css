@@ -58,7 +58,7 @@ header .block .back {
 
 header .block .modal {
     position: absolute;
-    top: 70px;
+    top: 50px;
     right: 5px;
     width: 100px;
     background-color: #d9d9d9;
@@ -103,7 +103,7 @@ header .block .modal .modal-item {
 }
 .formbox .inputbox {
     margin: 15px;
-    height: 180px;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -129,13 +129,17 @@ header .block .modal .modal-item {
     margin: 5px 0;
 }
 
-.loginbtn {
+.submit-btn {
     width: 280px;
     height: 30px;
     background-color: #aca0eb;
     border-radius: 4px;
     border: none;
     color: white;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .additional {
@@ -143,6 +147,10 @@ header .block .modal .modal-item {
     line-height: 16px;
     font-size: 12px;
     font-weight: 300;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 /* UPDATE INFO */
@@ -152,13 +160,6 @@ header .block .modal .modal-item {
     line-height: 16px;
     font-size: 13px;
 }
-.formbox .inputbox .item img {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    color: #4646468c;
-}
-
 .item .profile-image {
     display: flex;
     justify-content: center;
@@ -169,6 +170,13 @@ header .block .modal .modal-item {
         cursor: pointer;
     }
 }
+.formbox .inputbox .item img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    color: #4646468c;
+}
+
 .item .profile-image .profile-image-overlay {
     width: 140px;
     height: 140px;
