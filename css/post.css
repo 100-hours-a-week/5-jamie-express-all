@@ -348,17 +348,24 @@ hr {
     resize: none;
     background-color: inherit;
 
-    font-size: 13px;
-    font-weight: 200;
-    line-height: 31px;
+    line-height: 20px;
 
     &:focus {
         outline: none;
     }
 }
 
+.post-container .post-item .post-title {
+    height: 25px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
 .post-container .post-item .post-contents {
     height: 270px;
+
+    font-size: 13px;
+    font-weight: 200;
 }
 
 .post-wrapper .btnbox {
