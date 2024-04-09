@@ -39,23 +39,10 @@
     height: 25px;
     padding-left: 10px;
 }
-.formbox .inputbox .item .helper {
-    color: red;
-    font-size: 12px;
-    margin: 5px 0;
-}
 
 .submit-btn {
     width: 280px;
     height: 30px;
-    background-color: #aca0eb;
-    border-radius: 4px;
-    border: none;
-    color: white;
-
-    &:hover {
-        cursor: pointer;
-    }
 }
 
 .additional {
@@ -81,10 +68,6 @@
     justify-content: center;
     align-items: center;
     padding-top: 20px;
-
-    &:hover {
-        cursor: pointer;
-    }
 }
 .formbox .inputbox .item img {
     width: 140px;
@@ -104,7 +87,7 @@
     border-radius: 50%;
     position: absolute;
 }
-.item .profile-image .profile-image-overlay span {
+.item .profile-image .profile-image-overlay label {
     width: 45px;
     height: 30px;
 
@@ -119,6 +102,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .item .profile-image input {
