@@ -92,3 +92,20 @@ header .block .modal .modal-item {
     align-items: center;
     flex-direction: column;
 }
+
+.helper {
+    color: red;
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.submit-btn {
+    background-color: #aca0eb;
+    border-radius: 4px;
+    border: none;
+    color: white;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
