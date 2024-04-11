@@ -56,14 +56,14 @@ header .block .back {
     }
 }
 
-header .block .modal {
+header .block .modal-menu {
     position: absolute;
     top: 40px;
     right: 5px;
-    width: 100px;
+    width: 115px;
     background-color: #d9d9d9;
 }
-header .block .modal .modal-item {
+header .block .modal-menu .modal-item {
     padding: 10px;
     font-size: 12px;
     font-weight: 300;

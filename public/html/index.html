@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <title>아무 말 대잔치</title>
-        <link rel="stylesheet" href="../../css/reset.css" />
-        <link rel="stylesheet" href="../../css/common.css" />
-        <link rel="stylesheet" href="../../css/index.css" />
+        <link rel="stylesheet" href="../css/reset.css" />
+        <link rel="stylesheet" href="../css/common.css" />
+        <link rel="stylesheet" href="../css/index.css" />
     </head>
 
     <body>
@@ -18,9 +18,9 @@
 
         <div class="container">
             <div class="content">
-                <form class="formbox">
+                <section class="formbox">
                     <div class="title">로그인</div>
-                    <section class="inputbox">
+                    <form class="inputbox">
                         <div class="item">
                             <span class="input-name">이메일</span>
                             <input class="input" placeholder="이메일을 입력하세요." />
@@ -30,9 +30,11 @@
                             <input class="input" placeholder="비밀번호를 입력하세요." />
                             <span class="helper">* helper text</span>
                         </div>
-                    </section>
-                </form>
-                <button class="submit-btn">로그인</button>
+                    </form>
+                </section>
+                <button class="submit-btn" onclick="location.href='/post-list'">
+                    로그인
+                </button>
                 <span class="additional">회원가입</span>
             </div>
         </div>
