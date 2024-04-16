@@ -23,7 +23,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: start;
 }
 .formbox .inputbox .item {
     display: flex;
@@ -63,7 +63,7 @@
     line-height: 16px;
     font-size: 14px;
 }
-.item .profile-image {
+.item .profile-image-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,7 +76,7 @@
     color: #4646468c;
 }
 
-.item .profile-image .profile-image-overlay {
+.item .profile-image-wrapper .profile-image-overlay {
     width: 140px;
     height: 140px;
 
@@ -88,12 +88,12 @@
     position: absolute;
 }
 
-.item .profile-image label {
+.item .profile-image-wrapper label {
     &:hover {
         cursor: pointer;
     }
 }
-.item .profile-image .profile-image-overlay label {
+.item .profile-image-wrapper .profile-image-overlay label {
     width: 45px;
     height: 30px;
 
@@ -110,7 +110,7 @@
     align-items: center;
 }
 
-.item .profile-image input {
+.item .profile-image-wrapper input {
     display: none;
 }
 

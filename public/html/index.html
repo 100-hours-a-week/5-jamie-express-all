@@ -23,20 +23,39 @@
                     <form class="inputbox">
                         <div class="item">
                             <span class="input-name">이메일</span>
-                            <input class="input" placeholder="이메일을 입력하세요." />
+                            <input
+                                class="input"
+                                name="email"
+                                id="email"
+                                placeholder="이메일을 입력하세요."
+                            />
                         </div>
                         <div class="item">
                             <span class="input-name">비밀번호</span>
-                            <input class="input" placeholder="비밀번호를 입력하세요." />
-                            <span class="helper">* helper text</span>
+                            <input
+                                class="input"
+                                type="password"
+                                name="password"
+                                id="password"
+                                placeholder="비밀번호를 입력하세요."
+                            />
                         </div>
+                        <span class="helper" id="login-helper"></span>
                     </form>
                 </section>
-                <button class="submit-btn" onclick="location.href='/post-list'">
+                <button
+                    class="submit-btn"
+                    id="login-btn"
+                    onclick="onLoginBtnClick(event)"
+                >
                     로그인
                 </button>
-                <span class="additional">회원가입</span>
+                <span class="additional" onclick="location.href='user/signup.html'"
+                    >회원가입</span
+                >
             </div>
         </div>
+
+        <script src="../js/index.js"></script>
     </body>
 </html>
