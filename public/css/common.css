@@ -95,10 +95,10 @@ header .block .modal-menu .modal-item {
 
 .helper {
     color: red;
-    font-size: 12px;
-    margin: 4px 0;
-    padding-left: 5px;
-    height: 10px;
+    font-size: 11px;
+    padding: 4px 5px;
+    height: 20px;
+    line-height: 15px;
 }
 
 .submit-btn {
@@ -106,10 +106,6 @@ header .block .modal-menu .modal-item {
     border-radius: 4px;
     border: none;
     color: white;
-
-    &:hover {
-        cursor: pointer;
-    }
 }
 
 /* MODAL  */
