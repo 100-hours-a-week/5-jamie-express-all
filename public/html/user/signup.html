@@ -14,7 +14,10 @@
     <body>
         <header>
             <div class="block">
-                <button class="back" href="/index.html">
+                <button
+                    class="back"
+                    onclick="location.href='/public/html/user/signin.html'"
+                >
                     <img src="../../images/icons/chevron-left.png" />
                 </button>
                 <span>아무 말 대잔치</span>
@@ -28,44 +31,80 @@
                     <section class="inputbox">
                         <div class="item">
                             <span class="input-name">프로필 사진*</span>
-                            <span class="helper">* helper text</span>
-                            <section class="profile-image">
-                                <label for="input-file">
+                            <span class="helper" id="profile-image-helper"
+                                >*프로필 사진을 추가해주세요.</span
+                            >
+                            <section class="profile-image-wrapper">
+                                <label for="profile-image">
                                     <img src="../../images/icons/plus.png" alt="user" />
                                 </label>
-                                <input type="file" id="input-file" accept="image/*" />
+                                <input
+                                    type="file"
+                                    id="profile-image"
+                                    name="profile-image"
+                                    accept="image/*"
+                                />
                             </section>
                         </div>
                     </section>
                     <div class="inputbox">
                         <div class="item">
                             <span class="input-name">이메일*</span>
-                            <input class="input" placeholder="이메일을 입력하세요." />
-                            <span class="helper">* helper text</span>
+                            <input
+                                class="input"
+                                id="email"
+                                name="email"
+                                placeholder="이메일을 입력하세요."
+                            />
+                            <span class="helper" id="email-helper"></span>
                         </div>
                         <div class="item">
                             <span class="input-name">비밀번호*</span>
-                            <input class="input" placeholder="비밀번호를 입력하세요." />
-                            <span class="helper">* helper text</span>
+                            <input
+                                class="input"
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="비밀번호를 입력하세요."
+                            />
+                            <span class="helper" id="password-helper"></span>
                         </div>
                         <div class="item">
                             <span class="input-name">비밀번호 확인*</span>
                             <input
                                 class="input"
+                                id="password-confirm"
+                                name="password-confirm"
+                                type="password"
                                 placeholder="비밀번호를 한 번 더 입력하세요."
                             />
-                            <span class="helper">* helper text</span>
+                            <span class="helper" id="password-confirm-helper"></span>
                         </div>
                         <div class="item">
                             <span class="input-name">닉네임*</span>
-                            <input class="input" placeholder="닉네임을 입력하세요." />
-                            <span class="helper">* helper text</span>
+                            <input
+                                class="input"
+                                id="nickname"
+                                name="nickname"
+                                placeholder="닉네임을 입력하세요."
+                            />
+                            <span class="helper" id="nickname-helper"></span>
                         </div>
                     </div>
                 </form>
-                <button class="submit-btn">회원가입</button>
-                <span class="additional">로그인하러 가기</span>
+                <button
+                    class="submit-btn"
+                    id="signup-btn"
+                    onclick="onSignupBtnClick(event)"
+                >
+                    회원가입
+                </button>
+                <span class="additional" onclick="location.href='./signin.html'"
+                    >로그인하러 가기</span
+                >
             </div>
         </div>
+
+        <script src="../../js/signup.js"></script>
     </body>
 </html>
