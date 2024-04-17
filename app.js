@@ -18,11 +18,11 @@ const __dirname = path.resolve();
 app.use(express.static("public"));
 
 const pages = [
-    { route: "/", filePath: "index.html" },
+    { route: "/signin", filePath: "user/signin.html" },
     { route: "/signup", filePath: "user/signup.html" },
     { route: "/update-info", filePath: "user/updateInfo.html" },
     { route: "/update-password", filePath: "user/updatePwd.html" },
-    { route: "/posts", filePath: "post/list.html" },
+    { route: "/posts", filePath: "index.html" },
     { route: "/posts/new", filePath: "post/write.html" },
     { route: "/posts/post/detail", filePath: "post/contents.html" },
     { route: "/posts/post/detail/update", filePath: "post/update.html" },
