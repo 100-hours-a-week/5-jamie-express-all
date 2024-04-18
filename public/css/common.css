@@ -62,6 +62,7 @@ header .block .modal-menu {
     right: 5px;
     width: 115px;
     background-color: #d9d9d9;
+    display: none;
 }
 header .block .modal-menu .modal-item {
     padding: 10px;
@@ -112,14 +113,14 @@ header .block .modal-menu .modal-item {
 
 .modal {
     width: 340px;
-    height: 240px;
     border-radius: 12px;
     background-color: #fff;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
+    padding: 30px;
 
-    padding: 25px;
+    position: fixed;
 }
 .modal .modal-title {
     font-size: 18px;
@@ -146,6 +147,10 @@ header .block .modal-menu .modal-item {
 
     font-size: 15px;
     font-weight: 200;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 .modal .modal-btn-container .btn-cancel {
     background-color: #242424;

@@ -1,4 +1,4 @@
-// ----- DOM Objects -----
+// ===== DOM Elements =====
 const $signupButton = document.getElementById("signup-btn");
 
 const $emailHelper = document.getElementById("email-helper");
@@ -16,12 +16,12 @@ const $ProfileImageLabelField = document.querySelector(
     ".profile-image-wrapper label img"
 );
 
-// ----- REGEX -----
+// ===== REGEX =====
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 const passwordRegex =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
-// ----- FUNCTIONS -----
+// ===== FUNCTIONS =====
 let emailValid, passwordValid, passwordConfirmValid, nicknameValid;
 
 // 포커스 아웃 시 유효성 검사 & button 업데이트
@@ -137,7 +137,7 @@ function updateButtonStyle() {
     }
 }
 
-function onSignupBtnClick(e) {
+function onClickSignUpBtn(e) {
     e.preventDefault(); // form의 기본 제출 동작 방지"
 
     // TODO: add sign-up api request
