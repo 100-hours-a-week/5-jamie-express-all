@@ -62,11 +62,19 @@ hr {
     border-radius: 16px;
     background-color: #fff;
 }
-.post-overview .title {
+.post-overview .post-info .title {
     font-size: 20px;
     font-weight: 800;
     line-height: 30px;
     margin-bottom: 10px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+        cursor: pointer;
+    }
 }
 .post-overview .post-info-detail {
     display: flex;

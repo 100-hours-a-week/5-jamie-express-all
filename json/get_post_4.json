@@ -1,0 +1,16 @@
+{
+    "post_id": 4,
+    "post_title": "sample title 2",
+    "post_content": "test",
+    "file_id": 4,
+    "user_id": 4,
+    "nickname": "닉네임",
+    "created_at": "2024-04-12T03:04:19.000Z",
+    "updated_at": "2024-04-12T03:04:19.000Z",
+    "deleted_at": null,
+    "like": "7",
+    "comment_count": "3",
+    "hits": "28",
+    "file_path": null,
+    "profile_image_path": "/public/images/sample/usersample4.jpg"
+}
