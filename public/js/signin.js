@@ -1,16 +1,16 @@
-// ----- DOM Objects -----
+// ===== DOM Elements =====
 const $loginButton = document.getElementById("login-btn");
 const $loginHelper = document.getElementById("login-helper");
 
 const $emailField = document.getElementById("email");
 const $passwordField = document.getElementById("password");
 
-// ----- REGEX -----
+// ===== REGEX =====
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-// ----- FUNCTIONS -----
+// ===== FUNCTIONS =====
 let emailValid, passwordValid;
 
 // 입력 중 유효성 검사
@@ -65,7 +65,7 @@ function updateButtonStyle() {
     }
 }
 
-function onLoginBtnClick(e) {
+function onClickLogInBtn(e) {
     e.preventDefault(); // form의 기본 제출 동작 방지
 
     // TODO: add sign-in api request

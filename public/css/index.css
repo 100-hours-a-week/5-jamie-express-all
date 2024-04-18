@@ -9,6 +9,7 @@
     flex-direction: column;
     justify-content: center;
     width: 360px;
+    padding-top: 20px;
 }
 .formbox .title {
     display: flex;
@@ -119,11 +120,15 @@
     background-color: #aca0eb;
     width: 100px;
     height: 40px;
+    border-radius: 20px;
+
     color: white;
     font-size: 14px;
-    border-radius: 20px;
-    display: flex;
+
+    display: none;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
+
+    position: fixed;
+    bottom: 30px;
 }
