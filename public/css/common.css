@@ -121,6 +121,7 @@ header .block .modal-menu .modal-item {
     padding: 30px;
 
     position: fixed;
+    z-index: 10;
 }
 .modal .modal-title {
     font-size: 18px;
@@ -158,4 +159,13 @@ header .block .modal-menu .modal-item {
 }
 .modal .modal-btn-container .btn-confirm {
     background-color: #c4a5fa;
+}
+
+.modal-backdrop {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    z-index: 5;
+    display: none;
 }
