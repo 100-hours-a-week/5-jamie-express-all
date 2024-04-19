@@ -1,0 +1,16 @@
+{
+    "post_id": 3,
+    "post_title": "sample title",
+    "post_content": "test",
+    "file_id": 3,
+    "user_id": 3,
+    "nickname": "asdf",
+    "created_at": "2024-04-12T03:04:19.000Z",
+    "updated_at": "2024-04-12T03:04:19.000Z",
+    "deleted_at": null,
+    "like": "4",
+    "comment_count": "1",
+    "hits": "5",
+    "file_path": "/public/images/sample/samplepost2.jpg",
+    "profile_image_path": "/public/images/sample/usersample3.jpg"
+}

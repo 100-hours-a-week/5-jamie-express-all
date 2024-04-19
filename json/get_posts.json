@@ -1,0 +1,90 @@
+[
+    {
+        "post_id": 1,
+        "post_title": "샘플 제목입니다.",
+        "user_id": 1,
+        "nickname": "샘플 유저",
+        "created_at": "2024-04-12T03:04:19.000Z",
+        "like": "10",
+        "comment_count": "2",
+        "hits": "20",
+        "profile_image_path": "/public/images/sample/usersample1.jpg"
+    },
+    {
+        "post_id": 2,
+        "post_title": "샘플 제목 두번째",
+        "user_id": 2,
+        "nickname": "yoouung",
+        "created_at": "2024-04-12T03:04:19.000Z",
+        "like": "3",
+        "comment_count": "10",
+        "hits": "1000",
+        "profile_image_path": "/public/images/sample/usersample2.jpg"
+    },
+    {
+        "post_id": 3,
+        "post_title": "sample title",
+        "user_id": 3,
+        "nickname": "asdf",
+        "created_at": "2024-04-12T03:04:19.000Z",
+        "like": "4",
+        "comment_count": "1",
+        "hits": "23453",
+        "profile_image_path": "/public/images/sample/usersample3.jpg"
+    },
+    {
+        "post_id": 4,
+        "post_title": "sample title 2",
+        "user_id": 4,
+        "nickname": "닉네임",
+        "created_at": "2024-04-12T03:04:19.000Z",
+        "like": "7",
+        "comment_count": "3",
+        "hits": "28",
+        "profile_image_path": "/public/images/sample/usersample4.jpg"
+    },
+    {
+        "post_id": 5,
+        "post_title": "샘플 제목입니다.",
+        "user_id": 5,
+        "nickname": "샘플 유저",
+        "created_at": "2024-04-12T03:04:19.000Z",
+        "like": "10",
+        "comment_count": "2",
+        "hits": "20",
+        "profile_image_path": "/public/images/sample/usersample1.jpg"
+    },
+    {
+        "post_id": 6,
+        "post_title": "샘플 제목 두번째",
+        "user_id": 6,
+        "nickname": "yoouung",
+        "created_at": "2024-04-12T03:04:19.000Z",
+        "like": "3",
+        "comment_count": "10",
+        "hits": "30",
+        "profile_image_path": "/public/images/sample/usersample2.jpg"
+    },
+    {
+        "post_id": 7,
+        "post_title": "sample title",
+        "user_id": 7,
+        "nickname": "asdf",
+        "created_at": "2024-04-12T03:04:19.000Z",
+        "like": "4",
+        "comment_count": "1",
+        "hits": "5",
+        "profile_image_path": "/public/images/sample/usersample3.jpg"
+    },
+    {
+        "post_id": 8,
+        "post_title": "sample title 2",
+        "user_id": 8,
+        "nickname": "닉네임",
+        "created_at": "2024-04-12T03:04:19.000Z",
+        "like": "7",
+        "comment_count": "3",
+        "hits": "28",
+        "profile_image_path": "/public/images/sample/usersample4.jpg"
+    }
+]
