@@ -12,6 +12,8 @@ const $passwordConfirmHelper = document.getElementById("password-confirm-helper"
 const $toast = document.getElementById("toast");
 const $modal = document.querySelector(".modal");
 
+const $modalBackdrop = document.querySelector(".modal-backdrop");
+
 // ===== FUNCTIONS =====
 let nicknameValid, passwordValid, passwordConfirmValid;
 const passwordRegex =
@@ -118,11 +120,13 @@ function toastOn() {
 function showModal(e) {
     e.preventDefault();
     $modal.style.display = "flex";
+    $modalBackdrop.style.display = "block";
 }
 
 function closeModal(e) {
     e.preventDefault();
     $modal.style.display = "none";
+    $modalBackdrop.style.display = "none";
 }
 
 function confirmDelete(e) {
