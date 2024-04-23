@@ -45,7 +45,6 @@ $passwordConfirmField
     : null;
 
 function updateValidation({ nickname, password, passwordConfirm }) {
-    console.log(nickname, password, passwordConfirm);
     if (nickname != null) {
         // falsy값(0, '', null, undefined, NaN)이 아닌 경우
         if (nickname.length === 0 || nickname.includes(" ")) {

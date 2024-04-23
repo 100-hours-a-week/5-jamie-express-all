@@ -93,8 +93,8 @@ hr {
     padding: 0 15px;
 }
 .post-writer .userimage {
-    width: 35px;
-    height: 35px;
+    width: 33px;
+    height: 33px;
     border-radius: 50%;
     margin-right: 10px;
 
@@ -115,9 +115,9 @@ hr {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 20px;
 }
-.post-writer .writer {
+.post-writer .nickname {
     font-weight: 800;
 }
 .post-writer .date {
@@ -225,14 +225,14 @@ hr {
     margin-right: 10px;
 }
 
-.comments-wrapper {
+.comment-list-container {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-top: 30px;
     align-items: center;
 }
-.comments-wrapper .comment {
+.comment-list-container .comment {
     width: 540px;
     height: 65px;
     display: flex;
@@ -248,11 +248,12 @@ hr {
     align-items: center;
 }
 .comment .comment-info .writer-info .userimage {
-    width: 35px;
-    height: 35px;
+    width: 33px;
+    height: 33px;
     margin-right: 10px;
+    border-radius: 50%;
 }
-.comment .comment-info .writer-info .writer {
+.comment .comment-info .writer-info .nickname {
     font-weight: 800;
 }
 .comment .comment-info .writer-info .date {
@@ -278,7 +279,7 @@ hr {
 /* WRITE & UPDATE */
 
 .title {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     line-height: 30px;
     margin-bottom: 30px;

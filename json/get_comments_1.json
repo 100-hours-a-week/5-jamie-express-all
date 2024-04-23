@@ -8,19 +8,17 @@
         "created_at": "2024-03-26T14:25:33.000Z",
         "updated_at": "2024-03-26T14:25:33.000Z",
         "deleted_at": null,
-        "file_id": 1,
         "profile_image_path": "/public/images/sample/usersample1.jpg"
     },
     {
         "comment_id": 2,
-        "comment_content": "더미 댓글 데이터2",
+        "comment_content": "기이이이이이이이이인 대애애애애애애앳 그으으으으을",
         "post_id": 1,
         "user_id": 2,
         "nickname": "테스트2",
         "created_at": "2024-03-26T14:25:33.000Z",
         "updated_at": "2024-03-26T14:25:33.000Z",
         "deleted_at": null,
-        "file_id": 1,
         "profile_image_path": "/public/images/sample/usersample2.jpg"
     },
     {
@@ -32,7 +30,6 @@
         "created_at": "2024-03-26T14:25:33.000Z",
         "updated_at": "2024-03-26T14:25:33.000Z",
         "deleted_at": null,
-        "file_id": 1,
         "profile_image_path": "/public/images/sample/usersample3.jpg"
     }
 ]

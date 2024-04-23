@@ -1,5 +1,3 @@
-let postList = [];
-
 // DOM 트리 생성 시 게시글 목록 생성
 document.addEventListener("DOMContentLoaded", () => {
     fetch("../../../json/get_posts.json")
@@ -12,24 +10,24 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then((data) => {
             // 데이터 처리
-            postList = data;
+            const postList = data;
 
             const $postListContainer = document.getElementById("postlist-container");
             postList.forEach((post) => {
                 const $post = document.createElement("div");
                 $post.innerHTML = `
-            <div class="post-overview list-view">
-                <div class="post-info">
-                    <span class="title" id="post-title" post-id="${post.post_id}">${
+                <div class="post-overview list-view">
+                    <div class="post-info">
+                        <span class="title" id="post-title" post-id="${post.post_id}">${
                     post.post_title
                 }</span>
-                    <div class="post-info-detail">
-                        <span class="stats">좋아요 ${post.like} 댓글 ${
+                        <div class="post-info-detail">
+                            <span class="stats">좋아요 ${post.like} 댓글 ${changeCount(
                     post.comment_count
-                } 조회수 ${changeHits(post.hits)}</span>
-                            <span class="date">${post.created_at
-                                .replace("T", " ")
-                                .substring(0, 16)}</span>
+                )} 조회수 ${changeCount(post.hits)}</span>
+                                <span class="date">${post.created_at
+                                    .replace("T", " ")
+                                    .substring(0, 16)}</span>
                     </div>
                 </div>
                 <hr class="hr-with-margin" />
@@ -59,14 +57,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 });
 
-function changeHits(hits) {
-    if (hits >= 1000 && hits < 10000) {
+function changeCount(num) {
+    if (num >= 1000 && num < 10000) {
         return "1k";
-    } else if (hits >= 10000 && hits < 100000) {
+    } else if (num >= 10000 && num < 100000) {
         return "10k";
-    } else if (hits >= 100000) {
+    } else if (num >= 100000) {
         return "100k";
     } else {
-        return hits;
+        return num;
     }
 }
