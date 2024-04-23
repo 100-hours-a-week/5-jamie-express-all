@@ -148,8 +148,10 @@ hr {
     display: flex;
     align-items: center;
 }
-.post-content .post-text span {
+.post-content .post-text {
     display: block;
+    line-height: 25px;
+    font-size: 15px;
 }
 
 .post-stats {
@@ -159,7 +161,7 @@ hr {
     width: 230px;
     justify-content: space-between;
     justify-self: center;
-    margin: 20px 0;
+    margin: 40px 0;
 }
 .post-stats .post-stats-item {
     background-color: #d9d9d9;
@@ -290,8 +292,6 @@ hr {
     flex-direction: column;
     width: 100%;
     margin-top: 20px;
-}
-.post-wrapper .post-container {
 }
 .post-wrapper .post-container .post-item {
     display: flex;
