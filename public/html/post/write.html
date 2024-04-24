@@ -14,16 +14,30 @@
     <body>
         <header>
             <div class="block">
-                <button class="back" href="/index.html">
+                <button class="back" onclick="location.href='/public/html/index.html'">
                     <img src="../../images/icons/chevron-left.png" />
                 </button>
                 <span>아무 말 대잔치</span>
-                <img class="user" src="../../images/userimage.png" alt="user" />
-                <div class="modal-menu">
+                <img
+                    class="user"
+                    id="header-profile-img"
+                    src="../../images/userimage.png"
+                    alt="user"
+                />
+                <div class="modal-menu" id="header-modal">
                     <div class="modal-content">
-                        <a class="modal-item" href="/update-info"> 회원정보 수정 </a>
-                        <a class="modal-item" href="/update-pwd"> 비밀번호 수정 </a>
-                        <a class="modal-item logoutbtn" href="/"> 로그아웃 </a>
+                        <a class="modal-item" href="/public/html/user/updateInfo.html">
+                            회원정보 수정
+                        </a>
+                        <a class="modal-item" href="/public/html/user/updatePwd.html">
+                            비밀번호 수정
+                        </a>
+                        <a
+                            class="modal-item logoutbtn"
+                            href="/public/html/user/signin.html"
+                        >
+                            로그아웃
+                        </a>
                     </div>
                 </div>
             </div>
@@ -41,7 +55,10 @@
                             <hr />
                             <textarea
                                 class="item-input post-title"
+                                id="post-title"
                                 placeholder="제목을 입력해주세요. (최대 26글자)"
+                                type="text"
+                                maxlength="26"
                             ></textarea>
                             <hr />
                         </div>
@@ -50,27 +67,32 @@
                             <hr />
                             <textarea
                                 class="item-input post-contents"
+                                id="post-contents"
                                 placeholder="내용을 입력해주세요."
                             ></textarea>
-                            <span class="helper">
-                                <hr />
-                                * helper text</span
-                            >
+                            <hr />
+                            <span class="helper" id="post-helper"></span>
                         </div>
                         <div class="post-item">
                             <span class="item-name">이미지</span>
                             <input
                                 class="item-input post-image"
                                 type="file"
+                                id="post-image"
+                                name="post-image"
                                 accept="image/*"
                             />
+                            <img class="item-image" id="post-image-preview" />
                         </div>
                     </form>
                     <div class="btnbox">
-                        <button class="submit-btn">완료</button>
+                        <button class="submit-btn" id="post-submit-btn">완료</button>
                     </div>
                 </section>
             </div>
         </div>
     </body>
+
+    <script src="../../js/common.js"></script>
+    <script src="../../js/post/write.js"></script>
 </html>

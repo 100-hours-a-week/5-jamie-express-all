@@ -12,7 +12,7 @@ const $passwordField = document.getElementById("password");
 const $passwordConfirmField = document.getElementById("password-confirm");
 const $nicknameField = document.getElementById("nickname");
 const $profileImageUploadField = document.getElementById("profile-image");
-const $ProfileImageLabelField = document.querySelector(
+const $profileImageLabelField = document.querySelector(
     ".profile-image-wrapper label img"
 );
 
@@ -50,7 +50,7 @@ $profileImageUploadField.addEventListener("change", (e) => {
 
     $profileImageHelper.textContent = "";
     const imageUrl = URL.createObjectURL(e.target.files[0]);
-    $ProfileImageLabelField.src = imageUrl;
+    $profileImageLabelField.src = imageUrl;
 });
 
 function signUpValidation({ email, password, passwordConfirm, nickname }) {

@@ -316,6 +316,12 @@ hr {
         outline: none;
     }
 }
+.post-container .post-item .item-image {
+    min-width: 100px;
+    max-width: 250px;
+    max-height: 250px;
+    margin-top: 10px;
+}
 
 .post-container .post-item .post-title {
     height: 25px;
