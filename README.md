@@ -1,2 +1,3 @@
-# CommunityWeb
-web development by html, css, javascript
+## KCS Community Web
+
+web frontend development by html, css, javascript
