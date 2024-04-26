@@ -192,7 +192,7 @@ function confirmDelete(object) {
     // TODO: post | comment delete API request
     if (object === "post") {
         alert("게시글이 삭제되었습니다.");
-        location.href = "/public/html/index.html";
+        location.href = "/public/views/index.html";
     } else if (object === "comment") {
         alert("댓글이 삭제되었습니다.");
         $commentModal.style.display = "none";

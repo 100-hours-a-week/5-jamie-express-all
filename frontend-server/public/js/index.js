@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             $postTitle.addEventListener("click", () => {
                 // TODO: 게시글id별 상세 페이지로 이동
                 const postId = $postTitle.getAttribute("post-id");
-                location.href = "/public/html/post/contents.html";
+                location.href = "/public/views/post/contents.html";
             });
         })
         .catch((error) => {

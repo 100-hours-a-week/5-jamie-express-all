@@ -60,13 +60,13 @@ $postContentsField.addEventListener("input", () => {
 });
 
 $postImageField.addEventListener("change", (e) => {
-    console.log(e.target.files);
     if (e.target.files.length === 0) {
         $postImagePreviewField.src = "";
         return;
     } else {
-        const imageUrl = URL.createObjectURL(e.target.files[0]);
-        $postImagePreviewField.src = imageUrl;
+        encodeFileToBase64(e.target.files[0], (imageBase64) => {
+            $postImagePreviewField.src = imageBase64;
+        });
     }
 });
 
@@ -81,7 +81,7 @@ $postSubmitBtn
           // post contents는 longtext 타입으로 저장
 
           alert("게시글이 작성되었습니다.");
-          window.location.href = "/public/html/post/contents.html";
+          window.location.href = "/public/views/post/contents.html";
       })
     : null;
 $postUpdateBtn
@@ -95,7 +95,7 @@ $postUpdateBtn
           // post contents는 longtext 타입으로 저장
 
           alert("게시글이 수정되었습니다.");
-          window.location.href = "/public/html/post/contents.html";
+          window.location.href = "/public/views/post/contents.html";
       })
     : null;
 
@@ -120,4 +120,13 @@ function updateButtonStyle() {
             $postSubmitBtn.style.cursor = "";
         }
     }
+}
+
+function encodeFileToBase64(img, callback) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const imageSrc = reader.result;
+        callback(imageSrc);
+    };
+    reader.readAsDataURL(img);
 }
