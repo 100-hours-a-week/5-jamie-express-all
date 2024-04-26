@@ -69,5 +69,5 @@ function onClickLogInBtn(e) {
     e.preventDefault(); // form의 기본 제출 동작 방지
 
     // TODO: add sign-in api request
-    window.location.href = "/public/html/index.html";
+    window.location.href = "/public/views/index.html";
 }

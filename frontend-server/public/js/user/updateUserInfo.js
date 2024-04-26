@@ -132,5 +132,5 @@ function confirmDelete(e) {
     e.preventDefault();
 
     alert("회원 탈퇴가 완료되었습니다.");
-    window.location.href = "/public/html/user/signin.html";
+    window.location.href = "/public/views/user/signin.html";
 }

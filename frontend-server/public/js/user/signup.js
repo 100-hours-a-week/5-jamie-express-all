@@ -44,13 +44,14 @@ $nicknameField.addEventListener("blur", () => {
 $profileImageUploadField.addEventListener("change", (e) => {
     if (e.target.files.length === 0) {
         $profileImageHelper.textContent = "*프로필 사진을 추가해주세요.";
-        $ProfileImageLabelField.src = "../../images/icons/plus.png";
+        $profileImageLabelField.src = "../../images/icons/plus.png";
         return;
     }
 
     $profileImageHelper.textContent = "";
-    const imageUrl = URL.createObjectURL(e.target.files[0]);
-    $profileImageLabelField.src = imageUrl;
+    encodeFileToBase64(e.target.files[0], (imageBase64) => {
+        $profileImageLabelField.src = imageBase64;
+    });
 });
 
 function signUpValidation({ email, password, passwordConfirm, nickname }) {
@@ -141,5 +142,14 @@ function onClickSignUpBtn(e) {
     e.preventDefault(); // form의 기본 제출 동작 방지"
 
     // TODO: add sign-up api request
-    window.location.href = "/public/html/user/signin.html";
+    window.location.href = "/public/views/user/signin.html";
+}
+
+function encodeFileToBase64(img, callback) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        const imageSrc = reader.result;
+        callback(imageSrc);
+    };
+    reader.readAsDataURL(img);
 }
