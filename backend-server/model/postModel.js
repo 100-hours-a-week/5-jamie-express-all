@@ -2,6 +2,7 @@
 
 import fs from "fs";
 import path from "path";
+import getKoreanDateTime from "../utils/dateFormat.js";
 
 const __dirname = path.resolve();
 let postsJSON;
@@ -35,7 +36,7 @@ const getPostById = (post_id) => {
     return { ...post, nickname, profile_image };
 };
 
-const createPost = ({ post, user_id }) => {
+const createPost = ({ user_id, post }) => {
     postsJSON = JSON.parse(
         fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
     );
@@ -45,14 +46,14 @@ const createPost = ({ post, user_id }) => {
     }
 
     const post_id = postsJSON.length + 1;
-    const datetime = new Date().toISOString();
+    const datetime = getKoreanDateTime();
 
     const newPost = {
         post_id: post_id,
         title: post.title,
         content: post.content,
         image: post.image,
-        user_id: user_id,
+        user_id: parseInt(user_id),
         created_at: datetime,
         updated_at: null,
         deleted_at: null,
@@ -68,7 +69,54 @@ const createPost = ({ post, user_id }) => {
     return newPost;
 };
 
-const updatePost = ({ post_id, updateList }) => {
+const updatePost = ({ user_id, post_id, update_form }) => {
+    postsJSON = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
+    );
+
+    const postToUpdate = postsJSON.find(
+        (post) => post.post_id === parseInt(post_id),
+    );
+    if (!postToUpdate) {
+        return "error: 존재하지 않는 게시글";
+    } else if (postToUpdate.user_id !== parseInt(user_id)) {
+        return "error: 게시글 수정 권한 없음";
+    }
+
+    Object.keys(update_form).forEach((key) => {
+        postToUpdate[key] = update_form[key];
+    });
+
+    postToUpdate.updated_at = getKoreanDateTime();
+    savePosts();
+
+    return postToUpdate;
+};
+
+const deletePost = ({ user_id, post_id }) => {
+    postsJSON = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
+    );
+
+    const postToDelete = postsJSON.find(
+        (post) => post.post_id === parseInt(post_id),
+    );
+
+    if (!postToDelete) {
+        return "error: 존재하지 않는 게시글";
+    } else if (postToDelete.user_id !== parseInt(user_id)) {
+        return "error: 게시글 삭제 권한 없음";
+    }
+
+    postsJSON = postsJSON.filter((post) => post.post_id !== parseInt(post_id));
+    savePosts();
+
+    return "success: 게시글 삭제 성공";
+};
+
+// ===== COMMENTS =====
+
+const createComment = ({ user_id, post_id, comment }) => {
     postsJSON = JSON.parse(
         fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
     );
@@ -80,28 +128,77 @@ const updatePost = ({ post_id, updateList }) => {
         return "error: 존재하지 않는 게시글";
     }
 
-    Object.keys(updateList).forEach((key) => {
-        postToUpdate[key] = updateList[key];
-    });
+    const comment_id = postToUpdate.comments_list.length + 1;
+    const datetime = getKoreanDateTime();
 
-    const datetime = new Date().toISOString();
-    postToUpdate.updated_at = datetime;
+    const newComment = {
+        comment_id: comment_id,
+        content: comment.content,
+        user_id: parseInt(user_id),
+        created_at: datetime,
+        updated_at: null,
+    };
 
-    console.log(postsJSON);
+    postToUpdate.comments_list.push(newComment);
+    postToUpdate.comments += 1;
     savePosts();
 
-    return postToUpdate;
+    return newComment;
 };
 
-const deletePost = (post_id) => {
+const updateComment = ({ user_id, post_id, comment_id, update_form }) => {
     postsJSON = JSON.parse(
         fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
     );
 
-    postsJSON = postsJSON.filter((post) => post.post_id !== parseInt(post_id));
+    const postToUpdate = postsJSON.find(
+        (post) => post.post_id === parseInt(post_id),
+    );
+    const commentToUpdate = postToUpdate.comments_list.find(
+        (comment) => comment.comment_id === parseInt(comment_id),
+    );
+
+    if (!commentToUpdate) {
+        return "error: 존재하지 않는 댓글";
+    } else if (commentToUpdate.user_id !== parseInt(user_id)) {
+        return "error: 댓글 수정 권한 없음";
+    }
+
+    Object.keys(update_form).forEach((key) => {
+        commentToUpdate[key] = update_form[key];
+    });
+
+    commentToUpdate.updated_at = getKoreanDateTime();
     savePosts();
 
-    return "delete success";
+    return commentToUpdate;
+};
+
+const deleteComment = ({ user_id, post_id, comment_id }) => {
+    postsJSON = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
+    );
+
+    const postToUpdate = postsJSON.find(
+        (post) => post.post_id === parseInt(post_id),
+    );
+    const commentToDelete = postToUpdate.comments_list.find(
+        (comment) => comment.comment_id === parseInt(comment_id),
+    );
+
+    if (!commentToDelete) {
+        return "error: 존재하지 않는 댓글";
+    } else if (commentToDelete.user_id !== parseInt(user_id)) {
+        return "error: 댓글 삭제 권한 없음";
+    }
+
+    postToUpdate.comments_list = postToUpdate.comments_list.filter(
+        (comment) => comment.comment_id !== parseInt(comment_id),
+    );
+    postToUpdate.comments -= 1;
+    savePosts();
+
+    return "success: 댓글 삭제 성공";
 };
 
 // ===== COMMON FUNCTIONS =====
@@ -121,4 +218,7 @@ export default {
     createPost,
     updatePost,
     deletePost,
+    createComment,
+    updateComment,
+    deleteComment,
 };
