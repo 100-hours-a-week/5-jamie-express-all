@@ -1,30 +1,35 @@
-/* json 파일의 데이터에 직접 접근해서 CRDU 하는 파일 */
+/* json 파일의 데이터에 직접 접근해서 CRUD 하는 파일 */
 
 import fs from "fs";
 import path from "path";
+
 const __dirname = path.resolve();
 let postsJSON;
 
+// ===== POSTS =====
+
 const getPosts = () => {
     postsJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
     );
     return postsJSON;
 };
 
 const getPostById = (post_id) => {
     postsJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
     );
     const usersJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "users.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "data", "users.json"), "utf-8"),
     );
 
     // 게시글 정보, 작성자 닉네임, 작성자 프로필 이미지 결합하여 반환
     const post = postsJSON.find((post) => post.post_id === parseInt(post_id));
-    const nickname = usersJSON.find((user) => user.user_id === post.user_id).nickname;
+    const nickname = usersJSON.find(
+        (user) => user.user_id === post.user_id,
+    ).nickname;
     const profile_image = usersJSON.find(
-        (user) => user.user_id === post.user_id
+        (user) => user.user_id === post.user_id,
     ).profile_image;
 
     return { ...post, nickname, profile_image };
@@ -32,7 +37,7 @@ const getPostById = (post_id) => {
 
 const createPost = ({ post, user_id }) => {
     postsJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
     );
 
     if (!post.title || !post.content || !user_id) {
@@ -46,7 +51,7 @@ const createPost = ({ post, user_id }) => {
         post_id: post_id,
         title: post.title,
         content: post.content,
-        image: post.image_path,
+        image: post.image,
         user_id: user_id,
         created_at: datetime,
         updated_at: null,
@@ -54,6 +59,7 @@ const createPost = ({ post, user_id }) => {
         likes: 0,
         comments: 0,
         hits: 0,
+        comments_list: [],
     };
 
     postsJSON.push(newPost);
@@ -64,10 +70,12 @@ const createPost = ({ post, user_id }) => {
 
 const updatePost = ({ post_id, updateList }) => {
     postsJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
     );
 
-    const postToUpdate = postsJSON.find((post) => post.post_id === parseInt(post_id));
+    const postToUpdate = postsJSON.find(
+        (post) => post.post_id === parseInt(post_id),
+    );
     if (!postToUpdate) {
         return "error: 존재하지 않는 게시글";
     }
@@ -87,7 +95,7 @@ const updatePost = ({ post_id, updateList }) => {
 
 const deletePost = (post_id) => {
     postsJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8"),
     );
 
     postsJSON = postsJSON.filter((post) => post.post_id !== parseInt(post_id));
@@ -96,11 +104,21 @@ const deletePost = (post_id) => {
     return "delete success";
 };
 
+// ===== COMMON FUNCTIONS =====
+
 function savePosts() {
     fs.writeFileSync(
         path.join(__dirname, "data", "posts.json"),
-        JSON.stringify(postsJSON)
+        JSON.stringify(postsJSON),
     );
 }
 
-export default { getPosts, getPostById, createPost, updatePost, deletePost };
+// ===== EXPORT =====
+
+export default {
+    getPosts,
+    getPostById,
+    createPost,
+    updatePost,
+    deletePost,
+};
