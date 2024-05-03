@@ -27,10 +27,11 @@ const getPostById = async (req, res) => {
 
 const createPost = async (req, res) => {
     try {
-        const post = req.body;
-        const user_id = req.headers.user_id;
+        const { user_id } = req.headers;
+        const { title, content } = req.body;
+        const image = req.file;
 
-        const newPost = await Post.createPost({ post, user_id });
+        const newPost = await Post.createPost({ user_id, title, content, image });
         res.status(201).json(newPost);
     } catch (error) {
         res.status(409).json({ message: error.message });
@@ -40,7 +41,7 @@ const createPost = async (req, res) => {
 const updatePost = async (req, res) => {
     try {
         const update_form = req.body;
-        const post_id = req.params.post_id;
+        const { post_id } = req.params;
 
         const updatedPost = await Post.updatePost({ post_id, update_form });
         res.status(200).json(updatedPost);
@@ -51,8 +52,8 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
     try {
-        const post_id = req.params.post_id;
-        const user_id = req.headers.user_id;
+        const { post_id } = req.params;
+        const { user_id } = req.headers;
 
         const isSuccess = Post.deletePost({ user_id, post_id });
 
@@ -71,8 +72,8 @@ const deletePost = async (req, res) => {
 const createComment = async (req, res) => {
     try {
         const comment = req.body;
-        const user_id = req.headers.user_id;
-        const post_id = req.params.post_id;
+        const { user_id } = req.headers;
+        const { post_id } = req.params;
 
         const newComment = await Post.createComment({
             post_id,
@@ -87,9 +88,8 @@ const createComment = async (req, res) => {
 
 const updateComment = async (req, res) => {
     try {
-        const post_id = req.params.post_id;
-        const comment_id = req.params.comment_id;
-        const user_id = req.headers.user_id;
+        const { post_id, comment_id } = req.params;
+        const { user_id } = req.headers;
         const update_form = req.body;
 
         const updatedComment = await Post.updateComment({
@@ -106,9 +106,8 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     try {
-        const user_id = req.headers.user_id;
-        const post_id = req.params.post_id;
-        const comment_id = req.params.comment_id;
+        const { user_id } = req.headers;
+        const { post_id, comment_id } = req.params;
 
         const isSuccess = Post.deleteComment({ user_id, post_id, comment_id });
 
