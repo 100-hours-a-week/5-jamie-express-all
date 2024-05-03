@@ -1,4 +1,5 @@
 package-lock.json
+backend-server/uploads
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,git,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,git,macos
