@@ -2,7 +2,7 @@
 모델의 응답을 라우트한테 전달해주는 파일
  */
 
-import Post from "../model/postModel.js";
+const Post = require("../model/postModel.js");
 
 // ===== POSTS ====
 
@@ -121,7 +121,7 @@ const deleteComment = async (req, res) => {
     }
 };
 
-export default {
+module.exports = {
     getPosts,
     getPostById,
     createPost,

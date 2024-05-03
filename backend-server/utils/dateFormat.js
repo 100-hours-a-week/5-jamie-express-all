@@ -10,4 +10,4 @@ const getKoreanDateTime = () => {
     return `${year}-${month}-${date} ${hours}:${minutes}`;
 };
 
-export default getKoreanDateTime;
+module.exports = getKoreanDateTime;

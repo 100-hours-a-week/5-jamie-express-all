@@ -1,10 +1,10 @@
-import express from "express";
-import UserController from "../controllers/userController.js";
-
-import multer from "multer";
-const upload = multer({ dest: "uploads/" });
-
+const express = require("express");
 const router = express.Router();
+
+const UserController = require("../controllers/userController.js");
+
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 /* users listing. */
 router.post("/signup", upload.single("profile_image"), UserController.signUp);
@@ -15,4 +15,4 @@ router.get("/", UserController.getUserById);
 router.patch("/info", UserController.updateUserInfo);
 router.patch("/password", UserController.updateUserPassword);
 
-export default router;
+module.exports = router;

@@ -1,10 +1,9 @@
 {
     "name": "community-web-exp",
     "version": "0.0.0",
-    "type": "module",
     "private": true,
     "scripts": {
-        "start": "node app.js"
+        "start": "node server.js"
     },
     "dependencies": {
         "cookie-parser": "~1.4.4",

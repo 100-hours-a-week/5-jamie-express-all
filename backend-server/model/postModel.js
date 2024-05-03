@@ -1,17 +1,16 @@
 /* json 파일의 데이터에 직접 접근해서 CRUD 하는 파일 */
 
-import fs from "fs";
-import path from "path";
-import getKoreanDateTime from "../utils/dateFormat.js";
+const fs = require("fs");
+const path = require("path");
+const getKoreanDateTime = require("../utils/dateFormat.js");
 
-const __dirname = path.resolve();
 let postsJSON;
 
 // ===== POSTS =====
 
 const getPosts = () => {
     postsJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "posts.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "../data", "posts.json"), "utf-8")
     );
     return postsJSON;
 };
@@ -199,7 +198,7 @@ function savePosts() {
 
 // ===== EXPORT =====
 
-export default {
+module.exports = {
     getPosts,
     getPostById,
     createPost,
