@@ -55,6 +55,11 @@ header .block .back {
         cursor: pointer;
     }
 }
+header .block .header-title {
+    &:hover {
+        cursor: pointer;
+    }
+}
 
 header .block .modal-menu {
     position: absolute;
