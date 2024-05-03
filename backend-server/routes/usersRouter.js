@@ -1,5 +1,5 @@
 import express from "express";
-import userController from "../controllers/userController.js";
+import UserController from "../controllers/userController.js";
 
 import multer from "multer";
 const upload = multer({ dest: "uploads/" });
@@ -7,8 +7,12 @@ const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
 /* users listing. */
-router.post("/signup", upload.single("profile_image"), userController.signUp);
-router.post("/signin", userController.signIn);
-router.get("/", userController.getUserById);
+router.post("/signup", upload.single("profile_image"), UserController.signUp);
+router.post("/signin", UserController.signIn);
+router.delete("/", UserController.withdrawal);
+router.get("/", UserController.getUserById);
+
+router.patch("/info", UserController.updateUserInfo);
+router.patch("/password", UserController.updateUserPassword);
 
 export default router;
