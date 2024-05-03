@@ -1,10 +1,10 @@
-import express from "express";
-import PostController from "../controllers/postController.js";
-
-import multer from "multer";
-const upload = multer({ dest: "uploads/" });
-
+const express = require("express");
 const router = express.Router();
+
+const PostController = require("../controllers/postController.js");
+
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 /* posts listing. */
 router.get("/", PostController.getPosts);
@@ -18,4 +18,4 @@ router.post("/:post_id/comment", PostController.createComment);
 router.patch("/:post_id/comment/:comment_id", PostController.updateComment);
 router.delete("/:post_id/comment/:comment_id", PostController.deleteComment);
 
-export default router;
+module.exports = router;

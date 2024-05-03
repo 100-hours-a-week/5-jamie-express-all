@@ -1,11 +1,11 @@
-import express from "express";
+const express = require("express");
 
 // create express app
 const app = express();
 const port = 8000;
 
-import usersRouter from "./routes/usersRouter.js";
-import postsRouter from "./routes/postsRouter.js";
+const usersRouter = require("./routes/usersRouter");
+const postsRouter = require("./routes/postsRouter");
 
 // json 형식의 데이터를 파싱하기 위한 미들웨어
 app.use(express.json());

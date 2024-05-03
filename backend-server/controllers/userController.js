@@ -1,4 +1,4 @@
-import User from "../model/userModel.js";
+const User = require("../model/userModel.js");
 
 const signUp = async (req, res) => {
     try {
@@ -83,7 +83,7 @@ const updateUserPassword = async (req, res) => {
     }
 };
 
-export default {
+module.exports = {
     signUp,
     signIn,
     getUserById,

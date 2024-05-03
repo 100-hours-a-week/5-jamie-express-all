@@ -1,13 +1,12 @@
-import fs from "fs";
-import path from "path";
-import getKoreanDateTime from "../utils/dateFormat.js";
+const fs = require("fs");
+const path = require("path");
+const getKoreanDateTime = require("../utils/dateFormat.js");
 
-const __dirname = path.resolve();
 let usersJSON;
 
 const createUser = ({ email, password, nickname, profile_image }) => {
     usersJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "users.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
     );
 
     const lastUserId = usersJSON.length > 0 ? usersJSON[usersJSON.length - 1].user_id : 0;
@@ -114,7 +113,7 @@ function saveUsers() {
 
 // ===== EXPORT =====
 
-export default {
+module.exports = {
     createUser,
     checkUser,
     getUserById,
