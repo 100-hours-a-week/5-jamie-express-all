@@ -11,7 +11,7 @@ router.get("/", PostController.getPosts);
 router.get("/:post_id", PostController.getPostById);
 
 router.post("/new", upload.single("image"), PostController.createPost);
-router.patch("/:post_id", PostController.updatePost);
+router.patch("/:post_id", upload.single("image"), PostController.updatePost);
 router.delete("/:post_id", PostController.deletePost);
 
 router.post("/:post_id/comment", PostController.createComment);

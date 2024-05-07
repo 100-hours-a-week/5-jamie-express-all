@@ -25,9 +25,9 @@ const pages = [
     { route: "/update-info", filePath: "user/updateInfo.html" },
     { route: "/update-password", filePath: "user/updatePwd.html" },
     { route: "/", filePath: "index.html" },
-    { route: "/posts/new", filePath: "post/write.html" },
-    { route: "/posts/post/detail", filePath: "post/contents.html" },
-    { route: "/posts/post/detail/update", filePath: "post/update.html" },
+    { route: "/post/new", filePath: "post/write.html" },
+    { route: "/post/:post_id", filePath: "post/contents.html" },
+    { route: "/post/:post_id/update", filePath: "post/update.html" },
 ];
 
 pages.forEach((page) => {

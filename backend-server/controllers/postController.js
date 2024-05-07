@@ -1,123 +1,124 @@
-/* 라우트의 요청(GET, POST, ..)에 따라 모델한테 할 일을 전달해주고.
-모델의 응답을 라우트한테 전달해주는 파일
- */
-
 const Post = require("../model/postModel.js");
 
 // ===== POSTS ====
 
 const getPosts = async (req, res) => {
-    try {
-        const posts = await Post.getPosts();
-        res.status(200).json(posts);
-    } catch (error) {
-        // TODO: error status 추가
-        res.status(404).json({ message: error.message });
-    }
+    const posts = await Post.getPosts();
+    res.status(200).json(posts);
 };
 
 const getPostById = async (req, res) => {
-    try {
-        const post = await Post.getPostById(req.params.post_id);
+    const { post_id } = req.params;
+
+    const post = await Post.getPostById(post_id);
+
+    if (post === 400) {
+        res.status(400).json({ message: "게시글 정보 없음" });
+    } else {
         res.status(200).json(post);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
     }
 };
 
 const createPost = async (req, res) => {
-    try {
-        const { user_id } = req.headers;
-        const { title, content } = req.body;
-        const image = req.file;
+    const { user_id } = req.headers;
+    const { title, content } = req.body;
+    const image = req.file;
 
-        const newPost = await Post.createPost({ user_id, title, content, image });
-        res.status(201).json(newPost);
-    } catch (error) {
-        res.status(409).json({ message: error.message });
+    const isSuccess = await Post.createPost({ user_id, title, content, image });
+
+    if (isSuccess === 400) {
+        res.status(400).json({ message: "누락된 정보가 있습니다." });
+    } else if (isSuccess === 409) {
+        res.status(409).json({ message: "게시글 작성 실패" });
+    } else {
+        res.status(200).json({ post_id: isSuccess });
     }
 };
 
 const updatePost = async (req, res) => {
-    try {
-        const update_form = req.body;
-        const { post_id } = req.params;
+    const { user_id } = req.headers;
+    const { post_id } = req.params;
+    const { title, content } = req.body;
+    const image = req.file;
 
-        const updatedPost = await Post.updatePost({ post_id, update_form });
-        res.status(200).json(updatedPost);
-    } catch (error) {
-        res.status(409).json({ message: error.message });
+    const isSuccess = await Post.updatePost({ user_id, post_id, title, content, image });
+
+    if (isSuccess === 400) {
+        res.status(400).json({ message: "게시글 정보 없음" });
+    } else if (isSuccess === 409) {
+        res.status(409).json({ message: "게시글 수정 권한 없음" });
+    } else if (isSuccess === 200) {
+        res.status(200).json({ message: "게시글 수정 완료" });
     }
 };
 
 const deletePost = async (req, res) => {
-    try {
-        const { post_id } = req.params;
-        const { user_id } = req.headers;
+    const { post_id } = req.params;
+    const { user_id } = req.headers;
 
-        const isSuccess = Post.deletePost({ user_id, post_id });
+    const isSuccess = Post.deletePost({ user_id, post_id });
 
-        if (isSuccess.startsWith("error")) {
-            res.status(409).json({ message: isSuccess });
-        } else {
-            res.status(200).json({ message: isSuccess });
-        }
-    } catch (error) {
-        res.status(409).json({ message: error.message });
+    if (isSuccess === 400) {
+        res.status(400).json({ message: "게시글 정보 없음" });
+    } else if (isSuccess === 409) {
+        res.status(409).json({ message: "게시글 삭제 권한 없음" });
+    } else if (isSuccess === 200) {
+        res.status(200).json({ message: "게시글 삭제 완료" });
     }
 };
 
 // ===== COMMENTS ====
 
 const createComment = async (req, res) => {
-    try {
-        const comment = req.body;
-        const { user_id } = req.headers;
-        const { post_id } = req.params;
+    const comment = req.body;
+    const { user_id } = req.headers;
+    const { post_id } = req.params;
 
-        const newComment = await Post.createComment({
-            post_id,
-            comment,
-            user_id,
-        });
-        res.status(200).json(newComment);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
+    const isSuccess = await Post.createComment({
+        post_id,
+        comment,
+        user_id,
+    });
+    if (isSuccess === 400) {
+        res.status(400).json({ message: "게시글 정보 없음 (post_id 오류)" });
+    } else if (isSuccess === 200) {
+        res.status(200).json({ message: "댓글 작성 완료" });
     }
 };
 
 const updateComment = async (req, res) => {
-    try {
-        const { post_id, comment_id } = req.params;
-        const { user_id } = req.headers;
-        const update_form = req.body;
+    const { post_id, comment_id } = req.params;
+    const { user_id } = req.headers;
+    const update_form = req.body;
 
-        const updatedComment = await Post.updateComment({
-            user_id,
-            post_id,
-            comment_id,
-            update_form,
-        });
-        res.status(200).json(updatedComment);
-    } catch (error) {
-        res.status(404).json({ message: error.message });
+    const isSuccess = await Post.updateComment({
+        user_id,
+        post_id,
+        comment_id,
+        update_form,
+    });
+
+    if (isSuccess === 400) {
+        res.status(400).json({ message: "댓글 정보 없음" });
+    } else if (isSuccess === 409) {
+        res.status(409).json({ message: "댓글 수정 권한 없음" });
+    } else if (isSuccess === 200) {
+        res.status(200).json({ message: "댓글 수정 완료" });
     }
 };
 
 const deleteComment = async (req, res) => {
-    try {
-        const { user_id } = req.headers;
-        const { post_id, comment_id } = req.params;
+    const { user_id } = req.headers;
+    const { post_id, comment_id } = req.params;
 
-        const isSuccess = Post.deleteComment({ user_id, post_id, comment_id });
+    const isSuccess = Post.deleteComment({ user_id, post_id, comment_id });
 
-        if (isSuccess.startsWith("error")) {
-            res.status(409).json({ message: isSuccess });
-        } else {
-            res.status(200).json({ message: isSuccess });
-        }
-    } catch (error) {
-        res.status(409).json({ message: error.message });
+    if (isSuccess === 400) {
+        res.status(400).json({ message: "댓글 정보 없음" });
+    } else if (isSuccess === 409) {
+        res.status(409).json({ message: "댓글 삭제 권한 없음" });
+    } else if (isSuccess === 200) {
+        res.status(200).json({ message: "댓글 삭제 완료" });
     }
 };
 
