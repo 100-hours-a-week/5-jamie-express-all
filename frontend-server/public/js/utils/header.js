@@ -10,6 +10,19 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const headerElement = await createHeader(isLoggedIn);
     $headerContainer.appendChild(headerElement);
+
+    // ===== Header Modal =====
+
+    const $headerModal = document.getElementById("header-modal");
+    $headerModal
+        ? document.getElementById("header-profile-img").addEventListener("click", () => {
+              if ($headerModal.style.display === "block") {
+                  $headerModal.style.display = "none";
+              } else {
+                  $headerModal.style.display = "block";
+              }
+          })
+        : null;
 });
 
 async function createHeader(isLoggedIn) {
@@ -41,7 +54,7 @@ async function createHeader(isLoggedIn) {
                         회원정보 수정
                     </a>
                     <a class="modal-item"
-                        href="/update-pwd"
+                        href="/update-password"
                     >
                         비밀번호 수정
                     </a>
@@ -64,6 +77,8 @@ async function createHeader(isLoggedIn) {
                     });
                 } else if (res.status === 400) {
                     alert("로그인 토큰이 만료되었습니다. 다시 로그인해주세요.");
+                } else {
+                    alert("유저 정보를 불러오는데 실패했습니다.");
                 }
             })
             .catch((error) => {
@@ -73,16 +88,3 @@ async function createHeader(isLoggedIn) {
 
     return header;
 }
-
-// ===== Header Modal =====
-
-const $headerModal = document.getElementById("header-modal");
-$headerModal
-    ? document.getElementById("header-profile-img").addEventListener("click", () => {
-          if ($headerModal.style.display === "block") {
-              $headerModal.style.display = "none";
-          } else {
-              $headerModal.style.display = "block";
-          }
-      })
-    : null;
