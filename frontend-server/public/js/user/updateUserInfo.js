@@ -1,6 +1,15 @@
+import { fetchForm, fetchRaw } from "../utils/fetch.js";
+const SERVER_BASE_URL = "http://localhost:8000";
+
 // ===== DOM Elements =====
 const $updateButton = document.getElementById("update-info-btn");
 
+const $profileImageLabelField = document.querySelector(
+    ".profile-image-wrapper label img"
+);
+const $profileImageUploadField = document.getElementById("profile-image");
+
+const $emailField = document.getElementById("email");
 const $nicknameField = document.getElementById("nickname");
 const $passwordField = document.getElementById("password");
 const $passwordConfirmField = document.getElementById("password-confirm");
@@ -9,19 +18,55 @@ const $nicknameHelper = document.getElementById("nickname-helper");
 const $passwordHelper = document.getElementById("password-helper");
 const $passwordConfirmHelper = document.getElementById("password-confirm-helper");
 
+const $withdrawalButton = document.getElementById("user-delete-btn");
+const $modalCloseButton = document.getElementById("modal-cancel-btn");
+const $modalConfirmButton = document.getElementById("modal-confirm-btn");
+
 const $toast = document.getElementById("toast");
 const $modal = document.querySelector(".modal");
 
 const $modalBackdrop = document.querySelector(".modal-backdrop");
 
 // ===== FUNCTIONS =====
+let isProfileImageChanged = false;
+let isNicknameChanged = false;
 let nicknameValid, passwordValid, passwordConfirmValid;
 const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@!%*?&])[A-Za-z\d$@!%*?&]{8,20}$/;
 
+window.addEventListener("DOMContentLoaded", async () => {
+    await fetchRaw("/users", "GET")
+        .then((res) => {
+            if (res.status === 200) {
+                res.json().then((data) => {
+                    if ($emailField) {
+                        // 회원정보 수정 페이지
+                        $emailField.innerText = data.email;
+                        $nicknameField.value = data.nickname;
+                        $profileImageLabelField.src = `${SERVER_BASE_URL}/${data.profile_image.path}`;
+                    }
+                });
+            } else if (res.status === 400) {
+                alert("로그인 토큰이 만료되었습니다. 다시 로그인해주세요.");
+            }
+        })
+        .catch((error) => {
+            console.error("유저 정보 불러오기 에러 발생: ", error);
+        });
+});
+
 $nicknameField
     ? $nicknameField.addEventListener("blur", () => {
           updateValidation({ nickname: $nicknameField.value });
+          isNicknameChanged = true;
+          updateButtonStyle();
+      })
+    : null;
+$profileImageUploadField
+    ? $profileImageUploadField.addEventListener("change", (e) => {
+          const image = e.target.files[0];
+          $profileImageLabelField.src = URL.createObjectURL(image);
+          isProfileImageChanged = true;
           updateButtonStyle();
       })
     : null;
@@ -43,6 +88,47 @@ $passwordConfirmField
           updateButtonStyle();
       })
     : null;
+
+$updateButton
+    ? $updateButton.addEventListener("click", async (e) => {
+          e.preventDefault();
+
+          if (isProfileImageChanged || (isNicknameChanged && nicknameValid)) {
+              const formData = new FormData();
+              formData.append("nickname", $nicknameField.value);
+              formData.append("profile_image", $profileImageUploadField.files[0]);
+
+              await fetchForm("/users/info", "PATCH", formData)
+                  .then((res) => {
+                      if (res.status === 200) {
+                          toastOn();
+                      } else {
+                          alert("회원 정보 수정에 실패했습니다.");
+                      }
+                  })
+                  .catch((error) => {
+                      console.error("회원 정보 수정 에러 발생: ", error);
+                  });
+          } else if (passwordValid && passwordConfirmValid) {
+              await fetchRaw("/users/password", "PATCH", {
+                  password: $passwordField.value,
+              })
+                  .then((res) => {
+                      if (res.status === 200) {
+                          toastOn();
+                      } else {
+                          alert("회원 정보 수정에 실패했습니다.");
+                      }
+                  })
+                  .catch((error) => {
+                      console.error("회원 정보 수정 에러 발생: ", error);
+                  });
+          }
+      })
+    : null;
+$withdrawalButton ? $withdrawalButton.addEventListener("click", showModal) : null;
+$modalCloseButton ? $modalCloseButton.addEventListener("click", closeModal) : null;
+$modalConfirmButton ? $modalConfirmButton.addEventListener("click", confirmDelete) : null;
 
 function updateValidation({ nickname, password, passwordConfirm }) {
     if (nickname != null) {
@@ -92,20 +178,16 @@ function updateValidation({ nickname, password, passwordConfirm }) {
 }
 
 function updateButtonStyle() {
-    if (nicknameValid || (passwordValid && passwordConfirmValid)) {
+    if (
+        isProfileImageChanged ||
+        (isNicknameChanged && nicknameValid) ||
+        (passwordValid && passwordConfirmValid)
+    ) {
         $updateButton.style.backgroundColor = "#7F6AEE";
         $updateButton.style.cursor = "pointer";
     } else {
         $updateButton.style.backgroundColor = "";
         $updateButton.style.cursor = "not-allowed";
-    }
-}
-
-function onClickUpdateInfoBtn(e) {
-    e.preventDefault();
-
-    if (nicknameValid || (passwordValid && passwordConfirmValid)) {
-        toastOn();
     }
 }
 
@@ -132,5 +214,5 @@ function confirmDelete(e) {
     e.preventDefault();
 
     alert("회원 탈퇴가 완료되었습니다.");
-    window.location.href = "/public/views/user/signin.html";
+    window.location.href = "/signin";
 }

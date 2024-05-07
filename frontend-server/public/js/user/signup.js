@@ -1,3 +1,5 @@
+import { fetchForm } from "../fetch.js";
+
 // ===== DOM Elements =====
 const $signupButton = document.getElementById("signup-btn");
 
@@ -42,16 +44,16 @@ $nicknameField.addEventListener("blur", () => {
     updateButtonStyle();
 });
 $profileImageUploadField.addEventListener("change", (e) => {
-    if (e.target.files.length === 0) {
+    const image = e.target.files[0];
+
+    if (!image) {
         $profileImageHelper.textContent = "*프로필 사진을 추가해주세요.";
         $profileImageLabelField.src = "../../images/icons/plus.png";
         return;
     }
 
     $profileImageHelper.textContent = "";
-    encodeFileToBase64(e.target.files[0], (imageBase64) => {
-        $profileImageLabelField.src = imageBase64;
-    });
+    $profileImageLabelField.src = URL.createObjectURL(image);
 });
 
 function signUpValidation({ email, password, passwordConfirm, nickname }) {
@@ -138,18 +140,24 @@ function updateButtonStyle() {
     }
 }
 
-function onClickSignUpBtn(e) {
+$signupButton.addEventListener("click", (e) => {
     e.preventDefault(); // form의 기본 제출 동작 방지"
 
-    // TODO: add sign-up api request
-    window.location.href = "/public/views/user/signin.html";
-}
+    const formData = new FormData();
+    formData.append("email", $emailField.value);
+    formData.append("password", $passwordField.value);
+    formData.append("nickname", $nicknameField.value);
+    formData.append("profile_image", $profileImageUploadField.files[0]);
 
-function encodeFileToBase64(img, callback) {
-    const reader = new FileReader();
-    reader.onload = () => {
-        const imageSrc = reader.result;
-        callback(imageSrc);
-    };
-    reader.readAsDataURL(img);
-}
+    fetchForm("/users/signup", "POST", formData)
+        .then((res) => {
+            if (res.user_id) {
+                location.href = "/signin";
+            } else {
+                console.log(res.message);
+            }
+        })
+        .catch((error) => {
+            console.error("회원가입 중 에러 발생:", error);
+        });
+});

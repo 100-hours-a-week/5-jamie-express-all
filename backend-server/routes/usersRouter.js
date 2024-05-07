@@ -12,7 +12,7 @@ router.post("/signin", UserController.signIn);
 router.delete("/", UserController.withdrawal);
 router.get("/", UserController.getUserById);
 
-router.patch("/info", UserController.updateUserInfo);
+router.patch("/info", upload.single("profile_image"), UserController.updateUserInfo);
 router.patch("/password", UserController.updateUserPassword);
 
 module.exports = router;

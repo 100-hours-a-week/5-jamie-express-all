@@ -91,6 +91,8 @@
 }
 
 .item .profile-image-wrapper label {
+    width: 140px;
+    height: 140px;
     &:hover {
         cursor: pointer;
     }

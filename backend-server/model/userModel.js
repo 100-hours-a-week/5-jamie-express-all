@@ -27,14 +27,14 @@ const createUser = ({ email, password, nickname, profile_image }) => {
 
 const checkUser = ({ email, password }) => {
     usersJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "users.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
     );
 
     const user = usersJSON.find(
         (user) => user.email === email && user.password === password
     );
     if (!user) {
-        return "error: 유저 정보 없음";
+        return 400;
     }
 
     return user.user_id;
@@ -42,63 +42,72 @@ const checkUser = ({ email, password }) => {
 
 const getUserById = (user_id) => {
     usersJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "users.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
     );
 
     const user = usersJSON.find((user) => user.user_id === parseInt(user_id));
     if (!user) {
-        return "error: 유저 정보 없음";
+        return 400;
     }
+
+    console.log("[USER] GET user by id: ", user.user_id);
     return user;
 };
 
-const updateUser = ({ user_id, update_form }) => {
+const updateUser = ({ user_id, profile_image, nickname }) => {
     usersJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "users.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
     );
 
-    const user = usersJSON.find((user) => user.user_id === parseInt(user_id));
-    if (!user) {
-        return "error: 유저 정보 없음";
+    const userToUpdate = usersJSON.find((user) => user.user_id === parseInt(user_id));
+    if (!userToUpdate) {
+        return 400;
     }
 
-    for (const key in update_form) {
-        user[key] = update_form[key];
+    if (profile_image) {
+        userToUpdate.profile_image = profile_image;
+    }
+    if (nickname) {
+        userToUpdate.nickname = nickname;
     }
     saveUsers();
 
-    return user;
+    console.log("[USER] UPDATE user: ", userToUpdate);
+    return userToUpdate;
 };
 
 const updateUserPassword = ({ user_id, password }) => {
     usersJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "users.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
     );
 
-    const user = usersJSON.find((user) => user.user_id === parseInt(user_id));
-    if (!user) {
-        return "error: 유저 정보 없음";
+    const userToUpdate = usersJSON.find((user) => user.user_id === parseInt(user_id));
+    if (!userToUpdate) {
+        return 400;
     }
 
-    user.password = password;
+    userToUpdate.password = password;
     saveUsers();
 
-    return user;
+    console.log("[USER] update user password: ", userToUpdate);
+    return userToUpdate;
 };
 
 const deleteUser = (user_id) => {
     usersJSON = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "data", "users.json"), "utf-8")
+        fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
     );
 
     const userIndex = usersJSON.findIndex((user) => user.user_id === parseInt(user_id));
+    console.log(userIndex);
     if (userIndex === -1) {
-        return "error: 유저 정보 없음";
+        return 400;
     }
 
     usersJSON.splice(userIndex, 1);
     saveUsers();
 
+    console.log("[USER] delete user: ", user_id);
     return "delete success";
 };
 
@@ -106,7 +115,7 @@ const deleteUser = (user_id) => {
 
 function saveUsers() {
     fs.writeFileSync(
-        path.join(__dirname, "data", "users.json"),
+        path.join(__dirname, "../data", "users.json"),
         JSON.stringify(usersJSON)
     );
 }

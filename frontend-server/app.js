@@ -1,11 +1,13 @@
 // import express module
 import express from "express";
 import path from "path";
+import dotenv from "dotenv";
 
-// create express app
+dotenv.config();
+
 const app = express();
-// define port number
-const port = 3000;
+const port = process.env.PORT || 3000;
+
 // ES module에서는 __dirname 사용 불가
 const __dirname = path.resolve();
 
@@ -22,7 +24,7 @@ const pages = [
     { route: "/signup", filePath: "user/signup.html" },
     { route: "/update-info", filePath: "user/updateInfo.html" },
     { route: "/update-password", filePath: "user/updatePwd.html" },
-    { route: "/posts", filePath: "index.html" },
+    { route: "/", filePath: "index.html" },
     { route: "/posts/new", filePath: "post/write.html" },
     { route: "/posts/post/detail", filePath: "post/contents.html" },
     { route: "/posts/post/detail/update", filePath: "post/update.html" },
@@ -30,10 +32,11 @@ const pages = [
 
 pages.forEach((page) => {
     app.get(page.route, (req, res) => {
-        res.sendFile(path.join(__dirname, "public/html", page.filePath));
+        res.sendFile(path.join(__dirname, "public", "views", page.filePath));
     });
 });
 
 app.listen(port, () => {
+    console.log("==================== FRONTEND SERVER START ====================");
     console.log(`Server running on port ${port}`);
 });

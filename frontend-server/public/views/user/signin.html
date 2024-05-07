@@ -41,20 +41,12 @@
                         <span class="helper" id="login-helper"></span>
                     </form>
                 </section>
-                <button
-                    class="submit-btn"
-                    id="login-btn"
-                    onclick="onClickLogInBtn(event)"
-                >
-                    로그인
-                </button>
-                <span class="additional" onclick="location.href='./signup.html'"
-                    >회원가입</span
-                >
+                <button class="submit-btn" id="login-btn">로그인</button>
+                <span class="additional" onclick="location.href='/signup'">회원가입</span>
             </div>
         </div>
 
-        <script src="../../js/common.js"></script>
-        <script src="../../js/user/signin.js"></script>
+        <script type="module" src="../../js/utils/header.js"></script>
+        <script type="module" src="../../js/user/signin.js"></script>
     </body>
 </html>
