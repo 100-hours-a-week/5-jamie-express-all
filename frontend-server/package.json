@@ -13,5 +13,6 @@
         "express": "^4.18.2",
         "http-errors": "^2.0.0",
         "readline-sync": "^1.4.10"
-    }
+    },
+    "proxy": "http://localhost:3000"
 }

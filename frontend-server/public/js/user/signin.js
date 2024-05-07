@@ -1,3 +1,5 @@
+import { fetchRaw } from "../utils/fetch.js";
+
 // ===== DOM Elements =====
 const $loginButton = document.getElementById("login-btn");
 const $loginHelper = document.getElementById("login-helper");
@@ -29,6 +31,28 @@ $emailField.addEventListener("blur", () => {
 $passwordField.addEventListener("blur", () => {
     loginValidation({ password: $passwordField.value });
     updateHelper();
+});
+
+$loginButton.addEventListener("click", (e) => {
+    e.preventDefault(); // form의 기본 제출 동작 방지
+
+    fetchRaw("/users/signin", "POST", {
+        email: $emailField.value,
+        password: $passwordField.value,
+    })
+        .then((res) => {
+            if (res.status === 200) {
+                localStorage.setItem("user_id", res.user_id);
+                location.href = "/";
+            } else if (res.status === 401) {
+                $loginHelper.textContent = "*입력하신 계정 정보가 정확하지 않습니다.";
+                $emailField.value = "";
+                $passwordField.value = "";
+            }
+        })
+        .catch((error) => {
+            console.error("로그인 에러 발생: ", error);
+        });
 });
 
 function loginValidation({ email, password }) {
@@ -63,11 +87,4 @@ function updateButtonStyle() {
         $loginButton.style.backgroundColor = "";
         $loginButton.style.cursor = "not-allowed";
     }
-}
-
-function onClickLogInBtn(e) {
-    e.preventDefault(); // form의 기본 제출 동작 방지
-
-    // TODO: add sign-in api request
-    window.location.href = "/public/views/index.html";
 }

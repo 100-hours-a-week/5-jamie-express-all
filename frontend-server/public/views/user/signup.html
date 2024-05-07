@@ -26,7 +26,10 @@
                             >
                             <section class="profile-image-wrapper">
                                 <label for="profile-image">
-                                    <img src="../../images/icons/plus.png" alt="user" />
+                                    <img
+                                        src="../../images/icons/plus.png"
+                                        alt="profile"
+                                    />
                                 </label>
                                 <input
                                     type="file"
@@ -82,19 +85,14 @@
                         </div>
                     </div>
                 </form>
-                <button
-                    class="submit-btn"
-                    id="signup-btn"
-                    onclick="onClickSignUpBtn(event)"
-                >
-                    회원가입
-                </button>
+                <button class="submit-btn" id="signup-btn">회원가입</button>
                 <span class="additional" onclick="location.href='./signin.html'"
                     >로그인하러 가기</span
                 >
             </div>
         </div>
 
-        <script src="../../js/user/signup.js"></script>
+        <script type="module" src="../../js/utils/header.js"></script>
+        <script type="module" src="../../js/user/signup.js"></script>
     </body>
 </html>

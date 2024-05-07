@@ -24,14 +24,17 @@
                         <div class="item">
                             <span class="input-name">프로필 사진*</span>
                             <section class="profile-image-wrapper">
-                                <img
-                                    class="user-img"
-                                    src="../../images/userimage.png"
-                                    alt="user"
-                                />
+                                <label for="profile-image">
+                                    <img class="user-img" alt="profile" />
+                                </label>
                                 <div class="profile-image-overlay">
-                                    <label for="input-file">변경</label>
-                                    <input type="file" id="input-file" accept="image/*" />
+                                    <label for="profile-image">변경</label>
+                                    <input
+                                        type="file"
+                                        id="profile-image"
+                                        name="profile-image"
+                                        accept="image/*"
+                                    />
                                 </div>
                             </section>
                         </div>
@@ -39,7 +42,7 @@
                     <section class="inputbox">
                         <div class="item">
                             <span class="input-name">이메일</span>
-                            <span class="text">emailexample@gmail.com</span>
+                            <span class="text" id="email"></span>
                         </div>
                         <div class="item">
                             <span class="input-name">닉네임</span>
@@ -53,16 +56,10 @@
                         </div>
                     </section>
                 </form>
-                <button
-                    class="submit-btn update-info-btn"
-                    id="update-info-btn"
-                    onclick="onClickUpdateInfoBtn(event)"
-                >
+                <button class="submit-btn update-info-btn" id="update-info-btn">
                     수정하기
                 </button>
-                <span class="additional" id="user-delete" onclick="showModal(event)"
-                    >회원 탈퇴</span
-                >
+                <span class="additional" id="user-delete-btn">회원 탈퇴</span>
 
                 <div class="toast" id="toast">
                     <span>수정완료</span>
@@ -73,18 +70,10 @@
                     <div class="modal-contents">
                         <span>작성된 게시글과 댓글은 삭제됩니다.</span>
                         <div class="modal-btn-container">
-                            <button
-                                class="modal-btn btn-cancel"
-                                id="modal-cancel-btn"
-                                onclick="closeModal(event)"
-                            >
+                            <button class="modal-btn btn-cancel" id="modal-cancel-btn">
                                 취소
                             </button>
-                            <button
-                                class="modal-btn btn-confirm"
-                                id="modal-cancel-btn"
-                                onclick="confirmDelete(event)"
-                            >
+                            <button class="modal-btn btn-confirm" id="modal-confirm-btn">
                                 확인
                             </button>
                         </div>
@@ -94,6 +83,6 @@
         </div>
     </body>
 
-    <script src="../../js/common.js"></script>
-    <script src="../../js/user/updateUserInfo.js"></script>
+    <script type="module" src="../../js/utils/header.js"></script>
+    <script type="module" src="../../js/user/updateUserInfo.js"></script>
 </html>
