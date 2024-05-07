@@ -1,6 +1,6 @@
 const BASE_URL = "http://localhost:8000";
 // const user_id = localStorage.getItem("user_id");
-const user_id = 6;
+const user_id = 7;
 
 export async function fetchRaw(url, method, data) {
     const requestUrl = BASE_URL + url;

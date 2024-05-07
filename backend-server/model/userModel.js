@@ -22,6 +22,7 @@ const createUser = ({ email, password, nickname, profile_image }) => {
     usersJSON.push(newUser);
     saveUsers();
 
+    console.log("[USER] CREATE user: ", newUser.user_id);
     return newUser.user_id;
 };
 
@@ -37,6 +38,7 @@ const checkUser = ({ email, password }) => {
         return 400;
     }
 
+    console.log("[USER] CHECK user: ", user.user_id);
     return user.user_id;
 };
 
@@ -99,13 +101,13 @@ const deleteUser = (user_id) => {
     );
 
     const userIndex = usersJSON.findIndex((user) => user.user_id === parseInt(user_id));
-    console.log(userIndex);
     if (userIndex === -1) {
         return 400;
     }
 
     usersJSON.splice(userIndex, 1);
     saveUsers();
+    deleteUserDataById(user_id);
 
     console.log("[USER] delete user: ", user_id);
     return "delete success";
@@ -117,6 +119,23 @@ function saveUsers() {
     fs.writeFileSync(
         path.join(__dirname, "../data", "users.json"),
         JSON.stringify(usersJSON)
+    );
+}
+
+function deleteUserDataById(user_id) {
+    const postsJSON = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "../data", "posts.json"), "utf-8")
+    );
+    const filteredPosts = postsJSON.filter((post) => post.user_id !== parseInt(user_id));
+    filteredPosts.forEach((post) => {
+        post.comments_list = post.comments_list.filter(
+            (comment) => comment.user_id !== parseInt(user_id)
+        );
+    });
+
+    fs.writeFileSync(
+        path.join(__dirname, "../data", "posts.json"),
+        JSON.stringify(filteredPosts)
     );
 }
 
