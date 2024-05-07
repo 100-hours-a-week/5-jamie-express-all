@@ -1,15 +1,17 @@
+import { fetchRaw } from "./utils/fetch.js";
+const SERVER_BASE_URL = "http://localhost:8000";
+
 // DOM 트리 생성 시 게시글 목록 생성
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("../../../json/get_posts.json")
-        .then((response) => {
-            // 응답을 JSON 형태로 파싱
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
+    fetchRaw("/posts", "GET")
+        .then((res) => {
+            if (res.status === 200) {
+                return res.json();
+            } else {
+                throw new Error("게시글 목록을 불러오는데 실패했습니다.");
             }
-            return response.json();
         })
         .then((data) => {
-            // 데이터 처리
             const postList = data;
 
             const $postListContainer = document.getElementById("postlist-container");
@@ -19,22 +21,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="post-overview list-view">
                     <div class="post-info">
                         <span class="title" id="post-title" post-id="${post.post_id}">${
-                    post.post_title
+                    post.title
                 }</span>
                         <div class="post-info-detail">
-                            <span class="stats">좋아요 ${post.like} 댓글 ${changeCount(
-                    post.comment_count
+                            <span class="stats">좋아요 ${post.likes} 댓글 ${changeCount(
+                    post.comments
                 )} 조회수 ${changeCount(post.hits)}</span>
-                                <span class="date">${post.created_at
-                                    .replace("T", " ")
-                                    .substring(0, 16)}</span>
+                            <span class="date">${post.created_at}</span>
                     </div>
                 </div>
                 <hr class="hr-with-margin" />
                 <div class="post-writer">
                     <img
                         class="userimage"
-                        src="${post.profile_image_path}"
+                        src="${SERVER_BASE_URL}/${post.profile_image.path}"
                         alt="user"
                     />
                     <span class="writer">${post.nickname}</span>
@@ -44,15 +44,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 $postListContainer.appendChild($post);
             });
 
-            const $postTitle = document.getElementById("post-title");
-            $postTitle.addEventListener("click", () => {
-                // TODO: 게시글id별 상세 페이지로 이동
-                const postId = $postTitle.getAttribute("post-id");
-                location.href = "/public/views/post/contents.html";
-            });
+            const $postTitles = document.querySelectorAll(".title");
+            $postTitles.forEach((title) =>
+                title.addEventListener("click", () => {
+                    const postId = title.getAttribute("post-id");
+                    location.href = "/post/" + postId;
+                })
+            );
         })
         .catch((error) => {
-            // 에러 처리
             console.error("There has been a problem with your fetch operation:", error);
         });
 });

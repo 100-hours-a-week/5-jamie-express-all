@@ -24,7 +24,7 @@
                         <span class="title" id="post-title"></span>
                         <div class="post-overview-info">
                             <div class="post-writer">
-                                <img class="userimage" src="" alt="user" />
+                                <img class="userimage" id="profile-image" alt="user" />
                                 <span class="nickname" id="post-writer-nickname"></span>
                                 <span class="date" id="post-uploaded-date"></span>
                             </div>
@@ -77,12 +77,15 @@
                     <div class="modal-contents">
                         <span>삭제한 내용은 복구할 수 없습니다.</span>
                         <div class="modal-btn-container">
-                            <button class="modal-btn btn-cancel" onclick="closeModal()">
+                            <button
+                                class="modal-btn btn-cancel"
+                                id="post-modal-close-btn"
+                            >
                                 취소
                             </button>
                             <button
                                 class="modal-btn btn-confirm"
-                                onclick="confirmDelete('post')"
+                                id="post-modal-confirm-btn"
                             >
                                 확인
                             </button>
@@ -94,12 +97,15 @@
                     <div class="modal-contents">
                         <span>삭제한 내용은 복구할 수 없습니다.</span>
                         <div class="modal-btn-container">
-                            <button class="modal-btn btn-cancel" onclick="closeModal()">
+                            <button
+                                class="modal-btn btn-cancel"
+                                id="comment-modal-close-btn"
+                            >
                                 취소
                             </button>
                             <button
                                 class="modal-btn btn-confirm"
-                                onclick="confirmDelete('comment')"
+                                id="comment-modal-confirm-btn"
                             >
                                 확인
                             </button>
@@ -110,6 +116,6 @@
         </div>
     </body>
 
-    <script src="../../js/common.js"></script>
-    <script src="../../js/post/contents.js"></script>
+    <script type="module" src="../../js/utils/header.js"></script>
+    <script type="module" src="../../js/post/contents.js"></script>
 </html>
