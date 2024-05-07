@@ -5,14 +5,33 @@ const SERVER_BASE_URL = "http://localhost:8000";
 document.addEventListener("DOMContentLoaded", async function () {
     const $headerContainer = document.querySelector(".header-container");
 
-    // TODO: 로그인 상태 확인
-    const isLoggedIn = true;
+    // TODO: 로그인 토큰 확인
+    let isLoggedIn;
+    let userInfo;
 
-    const headerElement = await createHeader(isLoggedIn);
+    await fetchRaw("/users", "GET")
+        .then(async (res) => {
+            if (res.status === 200) {
+                isLoggedIn = true;
+                await res.json().then((data) => {
+                    userInfo = data;
+                });
+            } else {
+                isLoggedIn = false;
+                return null;
+            }
+        })
+        .catch((error) => {
+            console.error("유저 정보 불러오기 에러 발생: ", error);
+        });
+
+    const headerElement = createHeader(isLoggedIn);
     $headerContainer.appendChild(headerElement);
 
-    // ===== Header Modal =====
+    const $userProfileImageField = document.getElementById("header-profile-img");
+    $userProfileImageField.src = `${SERVER_BASE_URL}/${userInfo.profile_image.path}`;
 
+    // === 모달창 ===
     const $headerModal = document.getElementById("header-modal");
     $headerModal
         ? document.getElementById("header-profile-img").addEventListener("click", () => {
@@ -25,7 +44,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         : null;
 });
 
-async function createHeader(isLoggedIn) {
+function createHeader(isLoggedIn) {
     const header = document.createElement("div");
     header.classList.add("block");
 
@@ -66,24 +85,6 @@ async function createHeader(isLoggedIn) {
                 </div>
             </div>
         `;
-
-        await fetchRaw("/users", "GET")
-            .then((res) => {
-                if (res.status === 200) {
-                    res.json().then((data) => {
-                        const $userProfileImageField =
-                            document.getElementById("header-profile-img");
-                        $userProfileImageField.src = `${SERVER_BASE_URL}/${data.profile_image.path}`;
-                    });
-                } else if (res.status === 400) {
-                    alert("로그인 토큰이 만료되었습니다. 다시 로그인해주세요.");
-                } else {
-                    alert("유저 정보를 불러오는데 실패했습니다.");
-                }
-            })
-            .catch((error) => {
-                console.error("유저 정보 불러오기 에러 발생: ", error);
-            });
     }
 
     return header;

@@ -210,8 +210,20 @@ function closeModal(e) {
     $modalBackdrop.style.display = "none";
 }
 
-function confirmDelete(e) {
+async function confirmDelete(e) {
     e.preventDefault();
+
+    await fetchRaw("/users", "DELETE")
+        .then((res) => {
+            if (res.status === 200) {
+                withdrawalSuccess();
+            } else {
+                alert("회원 탈퇴에 실패했습니다.");
+            }
+        })
+        .catch((error) => {
+            console.error("회원 탈퇴 에러 발생: ", error);
+        });
 
     alert("회원 탈퇴가 완료되었습니다.");
     window.location.href = "/signin";
