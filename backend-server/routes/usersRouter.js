@@ -9,6 +9,7 @@ const upload = multer({ dest: "uploads/" });
 /* users listing. */
 router.post("/signup", upload.single("profile_image"), UserController.signUp);
 router.post("/signin", UserController.signIn);
+router.post("/signout", UserController.signOut);
 router.delete("/", UserController.withdrawal);
 router.get("/", UserController.getUserById);
 

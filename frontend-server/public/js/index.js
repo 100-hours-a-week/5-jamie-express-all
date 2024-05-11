@@ -7,8 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((res) => {
             if (res.status === 200) {
                 return res.json();
-            } else {
-                throw new Error("게시글 목록을 불러오는데 실패했습니다.");
+            } else if (res.status === 401) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                location.href = "/signin";
             }
         })
         .then((data) => {

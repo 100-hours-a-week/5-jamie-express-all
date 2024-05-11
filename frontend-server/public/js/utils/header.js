@@ -5,43 +5,52 @@ const SERVER_BASE_URL = "http://localhost:8000";
 document.addEventListener("DOMContentLoaded", async function () {
     const $headerContainer = document.querySelector(".header-container");
 
-    // TODO: 로그인 토큰 확인
-    let isLoggedIn;
+    let isLoggedIn = false;
     let userInfo;
 
     await fetchRaw("/users", "GET")
-        .then(async (res) => {
+        .then((res) => {
             if (res.status === 200) {
                 isLoggedIn = true;
-                await res.json().then((data) => {
-                    userInfo = data;
-                });
-            } else {
-                isLoggedIn = false;
-                return null;
+                return res.json();
             }
         })
-        .catch((error) => {
-            console.error("유저 정보 불러오기 에러 발생: ", error);
+        .then((data) => {
+            userInfo = data;
         });
 
     const headerElement = createHeader(isLoggedIn);
     $headerContainer.appendChild(headerElement);
 
     const $userProfileImageField = document.getElementById("header-profile-img");
-    $userProfileImageField.src = `${SERVER_BASE_URL}/${userInfo.profile_image.path}`;
+    if ($userProfileImageField) {
+        $userProfileImageField.src = `${SERVER_BASE_URL}/${userInfo.profile_image.path}`;
+    }
 
     // === 모달창 ===
-    const $headerModal = document.getElementById("header-modal");
-    $headerModal
-        ? document.getElementById("header-profile-img").addEventListener("click", () => {
-              if ($headerModal.style.display === "block") {
-                  $headerModal.style.display = "none";
-              } else {
-                  $headerModal.style.display = "block";
-              }
-          })
-        : null;
+    if (isLoggedIn) {
+        const $headerModal = document.getElementById("header-modal");
+        $userProfileImageField.addEventListener("click", () => {
+            if ($headerModal.style.display === "block") {
+                $headerModal.style.display = "none";
+            } else {
+                $headerModal.style.display = "block";
+            }
+        });
+
+        const $logoutButton = document.querySelector(".logoutbtn");
+        $logoutButton.addEventListener("click", () => {
+            fetchRaw("/users/signout", "POST")
+                .then((res) => {
+                    if (res.status === 200) {
+                        location.href = "/signin";
+                    }
+                })
+                .catch((error) => {
+                    console.error("로그아웃 에러 발생: ", error);
+                });
+        });
+    }
 });
 
 function createHeader(isLoggedIn) {
@@ -77,9 +86,7 @@ function createHeader(isLoggedIn) {
                     >
                         비밀번호 수정
                     </a>
-                    <a class="modal-item logoutbtn"
-                        href="/signin"
-                    >
+                    <a class="modal-item logoutbtn">
                         로그아웃
                     </a>
                 </div>

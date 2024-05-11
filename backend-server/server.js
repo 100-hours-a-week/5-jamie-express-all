@@ -1,11 +1,10 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-
 const app = express();
 
 require("dotenv").config();
-const port = process.env.PORT;
+const { PORT, SECRET_KEY } = process.env;
 
 const usersRouter = require("./routes/usersRouter");
 const postsRouter = require("./routes/postsRouter");
@@ -19,6 +18,24 @@ app.use(
     })
 );
 
+// 쿠키, 세션 설정
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+
+app.use(cookieParser());
+app.use(
+    session({
+        secret: SECRET_KEY,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            httpOnly: true,
+            secure: false,
+            maxAge: 3600000, // 1시간
+        },
+    })
+);
+
 // 정적 파일 제공
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
@@ -27,7 +44,7 @@ app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 
 // listen for requests
-app.listen(port, () => {
+app.listen(PORT, () => {
     console.log("==================== BACKEND SERVER START ====================");
-    console.log(`Server running on port ${port}`);
+    console.log(`Server running on port ${PORT}`);
 });

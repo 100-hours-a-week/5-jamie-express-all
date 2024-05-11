@@ -1,4 +1,3 @@
-// import express module
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
@@ -10,8 +9,6 @@ const port = process.env.PORT || 3000;
 
 // ES module에서는 __dirname 사용 불가
 const __dirname = path.resolve();
-
-/* req = request, res = response */
 
 /**
  * 정적 파일 제공을 위한 디렉토리 설정
