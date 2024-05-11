@@ -35,11 +35,11 @@ const checkUser = ({ email, password }) => {
         (user) => user.email === email && user.password === password
     );
     if (!user) {
-        return 400;
+        return { status: 401 };
     }
 
     console.log("[USER] CHECK user: ", user.user_id);
-    return user.user_id;
+    return { status: 200, user_id: user.user_id };
 };
 
 const getUserById = (user_id) => {
@@ -49,11 +49,11 @@ const getUserById = (user_id) => {
 
     const user = usersJSON.find((user) => user.user_id === parseInt(user_id));
     if (!user) {
-        return 400;
+        return { status: 401 };
     }
 
     console.log("[USER] GET user by id: ", user.user_id);
-    return user;
+    return { status: 200, userInfo: user };
 };
 
 const updateUser = ({ user_id, profile_image, nickname }) => {
@@ -63,7 +63,7 @@ const updateUser = ({ user_id, profile_image, nickname }) => {
 
     const userToUpdate = usersJSON.find((user) => user.user_id === parseInt(user_id));
     if (!userToUpdate) {
-        return 400;
+        return { status: 400 };
     }
 
     if (profile_image) {
@@ -75,7 +75,7 @@ const updateUser = ({ user_id, profile_image, nickname }) => {
     saveUsers();
 
     console.log("[USER] UPDATE user: ", userToUpdate);
-    return userToUpdate;
+    return { status: 200, updatedUser: userToUpdate };
 };
 
 const updateUserPassword = ({ user_id, password }) => {
@@ -85,14 +85,14 @@ const updateUserPassword = ({ user_id, password }) => {
 
     const userToUpdate = usersJSON.find((user) => user.user_id === parseInt(user_id));
     if (!userToUpdate) {
-        return 400;
+        return { status: 400 };
     }
 
     userToUpdate.password = password;
     saveUsers();
 
     console.log("[USER] update user password: ", userToUpdate);
-    return userToUpdate;
+    return { status: 200, updatedUser: userToUpdate };
 };
 
 const deleteUser = (user_id) => {
@@ -102,7 +102,7 @@ const deleteUser = (user_id) => {
 
     const userIndex = usersJSON.findIndex((user) => user.user_id === parseInt(user_id));
     if (userIndex === -1) {
-        return 400;
+        return { status: 400 };
     }
 
     usersJSON.splice(userIndex, 1);
@@ -110,7 +110,7 @@ const deleteUser = (user_id) => {
     deleteUserDataById(user_id);
 
     console.log("[USER] delete user: ", user_id);
-    return "delete success";
+    return { status: 200 };
 };
 
 // ===== COMMON FUNCTIONS =====

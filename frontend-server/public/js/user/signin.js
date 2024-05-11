@@ -42,12 +42,12 @@ $loginButton.addEventListener("click", (e) => {
     })
         .then((res) => {
             if (res.status === 200) {
-                localStorage.setItem("user_id", res.user_id);
                 location.href = "/";
             } else if (res.status === 401) {
                 $loginHelper.textContent = "*입력하신 계정 정보가 정확하지 않습니다.";
                 $emailField.value = "";
                 $passwordField.value = "";
+                return;
             }
         })
         .catch((error) => {

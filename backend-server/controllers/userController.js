@@ -4,78 +4,150 @@ const signUp = async (req, res) => {
     const profile_image = req.file;
     const { email, password, nickname } = req.body;
 
-    const user_id = await User.createUser({
-        email,
-        password,
-        nickname,
-        profile_image,
-    });
+    try {
+        const user_id = await User.createUser({
+            email,
+            password,
+            nickname,
+            profile_image,
+        });
 
-    res.status(200).json({ user_id: user_id });
+        res.status(200).json({ user_id: user_id });
+    } catch (error) {
+        console.error("Sign up error: ", error);
+        return res.status(500).send("Internal Server Error");
+    }
 };
 
-const signIn = async (req, res) => {
+const signIn = (req, res) => {
     const { email, password } = req.body;
 
-    const status = await User.checkUser({ email, password });
+    try {
+        const { status, user_id } = User.checkUser({ email, password });
 
-    if (status === 401) {
-        res.status(401).json({ message: "유저 정보 없음" });
-    } else {
-        res.status(200).json({ user_id: status });
+        if (status === 401) {
+            return res.status(401).send("Unauthorized");
+        } else if (status === 200) {
+            if (!req.session.user) {
+                req.session.user = { user_id: user_id, authorized: true };
+            }
+            return res.status(200).json({ user_id: user_id });
+        }
+    } catch (error) {
+        console.error("Login error: ", error);
+        return res.status(500).send("Internal Server Error");
     }
 };
 
-const withdrawal = async (req, res) => {
-    const { user_id } = req.headers;
+const signOut = (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Session destroy error: ", err);
+            return res.status(500).send("Internal Server Error");
+        }
+        return res.status(200).send("Logout Success");
+    });
+};
 
-    const isSuccess = await User.deleteUser(user_id);
+const withdrawal = (req, res) => {
+    if (!req.session.user) {
+        res.status(401).json({ message: "로그인 정보 없음" });
+        return;
+    }
 
-    if (isSuccess === 400) {
-        res.status(400).json({ message: "유저 정보 없음" });
-    } else {
-        res.status(200).json({ message: "회원 탈퇴 완료" });
+    const { user_id } = req.session.user;
+
+    try {
+        const { status } = User.deleteUser(user_id);
+
+        if (status === 400) {
+            res.status(400).json({ message: "일치하는 유저 정보 없음" });
+        } else if (status === 200) {
+            res.status(200).json({ message: "회원 탈퇴 완료" });
+        }
+    } catch (error) {
+        console.error("Withdrawal error: ", error);
+        return res.status(500).send("Internal Server Error");
     }
 };
 
-const getUserById = async (req, res) => {
-    const { user_id } = req.headers;
+const getUserById = (req, res) => {
+    console.log("req.session: ", req.session);
+    if (!req.session.user) {
+        res.status(401).json({ message: "로그인 정보 없음" });
+        return;
+    }
+    const { user_id } = req.session.user;
 
-    const user = await User.getUserById(user_id);
+    try {
+        const { status, userInfo } = User.getUserById(user_id);
 
-    if (user === 400) {
-        res.status(400).json({ message: "유저 정보 없음" });
-    } else {
-        res.status(200).json(user);
+        if (status === 400) {
+            res.status(400).json({ message: "일치하는 유저 정보 없음" });
+        } else if (status === 200) {
+            res.status(200).json(userInfo);
+        }
+    } catch (error) {
+        console.error("Get user by id error: ", error);
+        return res.status(500).send("Internal Server Error");
     }
 };
 
-const updateUserInfo = async (req, res) => {
-    const { user_id } = req.headers;
+const updateUserInfo = (req, res) => {
+    if (!req.session.user) {
+        res.status(401).json({ message: "로그인 정보 없음" });
+        return;
+    }
+
+    const { user_id } = req.session.user;
     const profile_image = req.file;
     const { nickname } = req.body;
 
-    const updatedUser = await User.updateUser({ user_id, profile_image, nickname });
+    try {
+        const { status, updatedUser } = User.updateUser({
+            user_id,
+            profile_image,
+            nickname,
+        });
 
-    if (updatedUser === 400) {
-        res.status(400).json({ message: "유저 정보 없음 (user_id 오류)" });
-    } else {
-        res.status(200).json(updatedUser);
+        if (status === 400) {
+            res.status(400).json({ message: "일치하는 유저 정보 없음" });
+        } else if (status === 200) {
+            res.status(200).json(updatedUser);
+        }
+    } catch (error) {
+        console.error("Update user info error: ", error);
+        return res.status(500).send("Internal Server Error");
     }
 };
 
-const updateUserPassword = async (req, res) => {
-    const { user_id } = req.headers;
+const updateUserPassword = (req, res) => {
+    if (!req.session.user) {
+        res.status(401).json({ message: "로그인 정보 없음" });
+        return;
+    }
+
+    const { user_id } = req.session.user;
     const { password } = req.body;
 
-    const updatedUser = await User.updateUserPassword({ user_id, password });
+    try {
+        const { status, updatedUser } = User.updateUserPassword({ user_id, password });
 
-    res.status(200).json(updatedUser);
+        if (status === 400) {
+            res.status(400).json({ message: "일치하는 유저 정보 없음" });
+        } else if (status === 200) {
+            res.status(200).json(updatedUser);
+        }
+    } catch (error) {
+        console.error("Update user password error: ", error);
+        return res.status(500).send("Internal Server Error");
+    }
 };
 
 module.exports = {
     signUp,
     signIn,
+    signOut,
     getUserById,
     updateUserInfo,
     updateUserPassword,

@@ -46,8 +46,9 @@ window.addEventListener("DOMContentLoaded", async () => {
                         $profileImageLabelField.src = `${SERVER_BASE_URL}/${data.profile_image.path}`;
                     }
                 });
-            } else if (res.status === 400) {
-                alert("로그인 토큰이 만료되었습니다. 다시 로그인해주세요.");
+            } else if (res.status === 401) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                location.href = "/signin";
             }
         })
         .catch((error) => {
