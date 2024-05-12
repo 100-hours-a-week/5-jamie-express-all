@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
             );
         })
         .catch((error) => {
-            console.error("There has been a problem with your fetch operation:", error);
+            console.error("게시글 목록을 불러오는 중 에러 발생: ", error);
         });
 });
 

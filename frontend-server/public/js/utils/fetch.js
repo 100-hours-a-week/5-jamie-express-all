@@ -21,9 +21,6 @@ export async function fetchForm(url, method, data) {
     return fetch(requestUrl, {
         method: method,
         body: data,
-        headers: {
-            user_id: user_id ? user_id : null,
-        },
         credentials: "include",
     }).then((res) => {
         return res;
