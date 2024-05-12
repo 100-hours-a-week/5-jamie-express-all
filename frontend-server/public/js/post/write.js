@@ -53,19 +53,25 @@ $postSubmitBtn.addEventListener("click", async () => {
     formData.append("content", $postContentsField.value);
     formData.append("image", $postImageField.files[0]);
 
-    await fetchForm("/posts/new", "POST", formData).then((res) => {
-        if (res.status === 200) {
-            res.json().then((data) => {
-                const postId = data.post_id;
-                alert("게시글이 작성되었습니다.");
-                window.location.href = `/post/${postId}`;
-            });
-        } else if (res.status === 400) {
-            throw new Error("누락된 정보가 있습니다.");
-        } else {
-            throw new Error("게시글 작성에 실패했습니다.");
-        }
-    });
+    await fetchForm("/posts/new", "POST", formData)
+        .then((res) => {
+            if (res.status === 200) {
+                return res.json();
+            } else if (res.status === 401) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                location.href = "/signin";
+            } else if (res.status === 400) {
+                alert("게시글 작성에 실패했습니다. 다시 시도해주세요.");
+                location.reload();
+            }
+        })
+        .then((data) => {
+            alert("게시글이 작성되었습니다.");
+            location.href = `/post/${data.post_id}`;
+        })
+        .catch((error) => {
+            console.error("게시글 작성 중 에러 발생: ", error);
+        });
 });
 
 function updateButtonStyle() {

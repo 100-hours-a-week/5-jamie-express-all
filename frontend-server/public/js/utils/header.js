@@ -59,7 +59,7 @@ function createHeader(isLoggedIn) {
 
     if (!isLoggedIn) {
         header.innerHTML = `
-            <span class="header-title" onclick="location.reload()">
+            <span class="header-title" onclick="location.href='/'">
                 아무 말 대잔치
             </span>
         `;

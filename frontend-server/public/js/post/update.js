@@ -1,6 +1,5 @@
 import { fetchRaw, fetchForm } from "../utils/fetch.js";
 
-const userId = 6;
 let postId;
 const SERVER_BASE_URL = "http://localhost:8000";
 
@@ -21,28 +20,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         .then((res) => {
             if (res.status === 200) {
                 return res.json();
-            } else {
-                throw new Error(
-                    "게시글 정보를 불러오는데 실패했습니다. 다시 시도해주세요."
-                );
+            } else if (res.status === 401) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                location.href = "/signin";
+            } else if (res.status === 404) {
+                alert("게시글이 존재하지 않습니다.");
+                location.href = "/";
             }
         })
         .then((data) => {
-            if (data.user_id !== userId) {
-                alert("본인 게시글만 수정할 수 있습니다.");
-                window.location.href = "/";
-            }
+            const post = data.post;
 
-            $postTitleField.value = data.title;
-            $postContentsField.value = data.content;
-            $postImagePreviewField.src = SERVER_BASE_URL + "/" + data.image.path;
+            $postTitleField.value = post.title;
+            $postContentsField.value = post.content;
+            $postImagePreviewField.src = post.image
+                ? SERVER_BASE_URL + "/" + post.image.path
+                : "";
 
             postTitleValid = true;
             postContentsValid = true;
             updateButtonStyle();
         })
         .catch((error) => {
-            console.error("There has been a problem with your fetch operation:", error);
+            console.error("게시글을 불러오는 중 에러 발생: ", error);
         });
 });
 
@@ -96,19 +96,25 @@ $postUpdateBtn.addEventListener("click", async () => {
     if (isContentsChanged) formData.append("content", $postContentsField.value);
     if (isImageChanged) formData.append("image", $postImageField.files[0]);
 
-    await fetchForm(`/posts/${postId}`, "PATCH", formData).then((res) => {
-        if (res.status === 200) {
-            alert("게시글이 수정되었습니다.");
-            window.location.href = `/post/${postId}`;
-        } else if (res.status === 409) {
-            alert("본인 게시글만 수정할 수 있습니다.");
-            window.location.href = "/";
-        } else if (res.status === 400) {
-            throw new Error("게시글 정보가 없습니다.");
-        } else {
-            throw new Error("게시글 수정에 실패했습니다.");
-        }
-    });
+    await fetchForm(`/posts/${postId}`, "PATCH", formData)
+        .then((res) => {
+            if (res.status === 200) {
+                alert("게시글이 수정되었습니다.");
+                location.href = `/post/${postId}`;
+            } else if (res.status === 401) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                location.href = "/signin";
+            } else if (res.status === 404) {
+                alert("게시글이 존재하지 않습니다. 다시 시도해주세요.");
+                location.href = "/";
+            } else if (res.status === 409) {
+                alert("본인 게시글만 수정할 수 있습니다.");
+                location.href = `/post/${postId}`;
+            }
+        })
+        .catch((error) => {
+            console.error("게시글 수정 중 에러 발생: ", error);
+        });
 });
 
 function updateButtonStyle() {

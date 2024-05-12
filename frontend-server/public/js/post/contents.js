@@ -1,25 +1,30 @@
 import { fetchRaw } from "../utils/fetch.js";
 
-const userId = 6; // 임시로 사용자 id를 지정
 let postId;
 let commentList = [];
 const SERVER_BASE_URL = "http://localhost:8000";
 
 document.addEventListener("DOMContentLoaded", async () => {
-    postId = window.location.pathname.split("/")[2];
+    postId = location.pathname.split("/")[2];
 
     // 게시글 정보 가져오기
     await fetchRaw(`/posts/${postId}`, "GET")
         .then((res) => {
             if (res.status === 200) {
                 return res.json();
-            } else {
-                throw new Error(
-                    "게시글 정보를 불러오는데 실패했습니다. 다시 시도해주세요."
-                );
+            } else if (res.status === 401) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                location.href = "/signin";
+            } else if (res.status === 404) {
+                alert("게시글 정보를 불러오는데 실패했습니다. 다시 시도해주세요.");
+                location.href = "/";
             }
         })
         .then((data) => {
+            const post = data.post;
+            const currentUserId = data.current_user_id;
+
+            // === DOM Elements ===
             const $postTitle = document.getElementById("post-title");
             const $postWriterProfileImage = document.getElementById("profile-image");
             const $postWriterNickname = document.getElementById("post-writer-nickname");
@@ -32,24 +37,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             const $postCommentCount = document.getElementById("comment-count");
 
             // === 게시글 정보 ===
-            const postWriterUserId = data.user_id;
+            const postWriterUserId = post.user_id;
 
-            $postTitle.innerText = data.title;
-            $postWriterProfileImage.src = SERVER_BASE_URL + "/" + data.profile_image.path;
-            $postWriterNickname.innerText = data.nickname;
-            $postUploadedDate.innerText = data.created_at;
-            $postContent.innerHTML = data.content.replace(/\n/g, "<br>");
-            $postHitsCount.innerText = changeCount(data.hits);
-            $postCommentCount.innerText = data.comments;
+            $postTitle.innerText = post.title;
+            $postWriterProfileImage.src = SERVER_BASE_URL + "/" + post.profile_image.path;
+            $postWriterNickname.innerText = post.nickname;
+            $postUploadedDate.innerText = post.created_at;
+            $postContent.innerHTML = post.content.replace(/\n/g, "<br>");
+            $postHitsCount.innerText = changeCount(post.hits);
+            $postCommentCount.innerText = post.comments;
 
             // 이미지 없는 게시글이라면 이미지 컴포넌트 숨기기
-            if (data.image) {
-                $postImage.src = SERVER_BASE_URL + "/" + data.image.path;
+            if (post.image) {
+                $postImage.src = SERVER_BASE_URL + "/" + post.image.path;
             } else {
                 $postImageField.style.display = "none";
             }
 
-            if (userId === postWriterUserId) {
+            if (currentUserId === postWriterUserId) {
                 // 작성자와 로그인한 사용자가 같을 경우
                 const $postMenu = document.querySelector(".post-menu");
                 const $postMenuItems = document.createElement("div");
@@ -68,7 +73,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             // === 댓글 정보 ===
-            commentList = data.comments_list;
+            commentList = post.comments_list;
             const $commentListContainer = document.querySelector(
                 ".comment-list-container"
             );
@@ -89,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <span class="comment-contents">${comment.content}</span>
                             </div>`;
 
-                if (userId === commentWriterUserId) {
+                if (currentUserId === commentWriterUserId) {
                     // 작성자와 로그인한 사용자가 같을 경우
                     const $commentMenu = document.createElement("div");
                     $commentMenu.className = "post-menu comment-menu";
@@ -176,16 +181,19 @@ $commentUploadButton.addEventListener("click", async () => {
             }).then((res) => {
                 if (res.status === 200) {
                     return res.json();
-                } else {
-                    throw new Error("댓글 등록에 실패했습니다. 다시 시도해주세요.");
+                } else if (res.status === 400) {
+                    alert("게시글이 존재하지 않습니다. 다시 시도해주세요.");
+                    location.href = "/";
+                } else if (res.status === 401) {
+                    alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                    location.href = "/signin";
                 }
             });
 
             alert("댓글이 등록되었습니다.");
-            window.location.reload();
+            location.reload();
         }
     } else if ($commentUploadButton.innerText === "댓글 수정") {
-        // 댓글 textarea에서 comment-id를 가져오기
         const commentId = $commentField.getAttribute("comment-id");
 
         await fetchRaw(`/posts/${postId}/comment/${commentId}`, "PATCH", {
@@ -193,12 +201,22 @@ $commentUploadButton.addEventListener("click", async () => {
         }).then((res) => {
             if (res.status === 200) {
                 return res.json();
-            } else {
-                throw new Error("댓글 수정에 실패했습니다. 다시 시도해주세요.");
+            } else if (res.status === 400) {
+                alert("게시글이 존재하지 않습니다. 다시 시도해주세요.");
+                location.href = "/";
+            } else if (res.status === 401) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                location.href = "/signin";
+            } else if (res.status === 404) {
+                alert("댓글이 존재하지 않습니다. 다시 시도해주세요.");
+                location.reload();
+            } else if (res.status === 409) {
+                alert("본인 댓글만 수정할 수 있습니다.");
+                location.reload();
             }
         });
         alert("댓글이 수정되었습니다.");
-        window.location.reload();
+        location.reload();
     }
 });
 
@@ -235,8 +253,14 @@ async function confirmDelete(object) {
                     alert("게시글이 삭제되었습니다.");
                     location.href = "/";
                     return res.json();
-                } else {
-                    throw new Error("게시글 삭제에 실패했습니다. 다시 시도해주세요.");
+                } else if (res.status === 401) {
+                    alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                    location.href = "/signin";
+                } else if (res.status === 404) {
+                    alert("게시글이 존재하지 않습니다. 다시 시도해주세요.");
+                    location.href = "/";
+                } else if (res.status === 409) {
+                    alert("본인 게시글만 삭제할 수 있습니다.");
                 }
             })
             .catch((error) => {
@@ -251,9 +275,15 @@ async function confirmDelete(object) {
         await fetchRaw(`/posts/${postId}/comment/${commentId}`, "DELETE").then((res) => {
             if (res.status === 200) {
                 alert("댓글이 삭제되었습니다.");
-                window.location.reload();
-            } else {
-                throw new Error("댓글 삭제에 실패했습니다. 다시 시도해주세요.");
+                location.reload();
+            } else if (res.status === 404) {
+                alert("댓글이 존재하지 않습니다. 다시 시도해주세요.");
+                location.reload();
+            } else if (res.status === 401) {
+                alert("로그인 세션이 만료되었습니다. 다시 로그인해주세요.");
+                location.href = "/signin";
+            } else if (res.status === 409) {
+                alert("본인 댓글만 삭제할 수 있습니다.");
             }
         });
 

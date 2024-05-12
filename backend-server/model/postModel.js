@@ -1,5 +1,3 @@
-/* json 파일의 데이터에 직접 접근해서 CRUD 하는 파일 */
-
 const fs = require("fs");
 const path = require("path");
 const getKoreanDateTime = require("../utils/dateFormat.js");
@@ -36,7 +34,7 @@ const getPosts = () => {
     });
 
     console.log("[POST] GET all posts");
-    return postList;
+    return { posts: postList };
 };
 
 const getPostById = (post_id) => {
@@ -51,7 +49,7 @@ const getPostById = (post_id) => {
     const post = postsJSON.find((post) => post.post_id === parseInt(post_id));
 
     if (!post) {
-        return 400;
+        return { status: 404 };
     }
 
     const nickname = usersJSON.find((user) => user.user_id === post.user_id).nickname;
@@ -78,7 +76,7 @@ const getPostById = (post_id) => {
     savePosts();
 
     console.log("[POST] GET post by id: ", post.post_id);
-    return postWithAuthor;
+    return { status: 200, post: postWithAuthor };
 };
 
 const createPost = ({ user_id, title, content, image }) => {
@@ -87,7 +85,7 @@ const createPost = ({ user_id, title, content, image }) => {
     );
 
     if (!title || !content || !user_id) {
-        return 400;
+        return { status: 400 };
     }
 
     const lastPostId = postsJSON.length > 0 ? postsJSON[postsJSON.length - 1].post_id : 0;
@@ -111,7 +109,7 @@ const createPost = ({ user_id, title, content, image }) => {
     savePosts();
 
     console.log("[POST] CREATE post: ", newPost.post_id);
-    return newPost.post_id;
+    return { status: 200, post_id: newPost.post_id };
 };
 
 const updatePost = ({ user_id, post_id, title, content, image }) => {
@@ -121,9 +119,9 @@ const updatePost = ({ user_id, post_id, title, content, image }) => {
 
     const postToUpdate = postsJSON.find((post) => post.post_id === parseInt(post_id));
     if (!postToUpdate) {
-        return 400;
+        return { status: 404 };
     } else if (postToUpdate.user_id !== parseInt(user_id)) {
-        return 409;
+        return { status: 409 };
     }
 
     if (title) {
@@ -139,7 +137,7 @@ const updatePost = ({ user_id, post_id, title, content, image }) => {
     postToUpdate.updated_at = getKoreanDateTime();
     savePosts();
 
-    return 200;
+    return { status: 200, post_updated_id: postToUpdate.post_id };
 };
 
 const deletePost = ({ user_id, post_id }) => {
@@ -150,15 +148,15 @@ const deletePost = ({ user_id, post_id }) => {
     const postIndex = postsJSON.findIndex((post) => post.post_id === parseInt(post_id));
 
     if (postIndex === -1) {
-        return 400;
+        return { status: 404 };
     } else if (postsJSON[postIndex].user_id !== parseInt(user_id)) {
-        return 409;
+        return { status: 409 };
     }
 
     postsJSON.splice(postIndex, 1);
     savePosts();
 
-    return 200;
+    return { status: 200, post_deleted_id: post_id };
 };
 
 // ===== COMMENTS =====
@@ -170,7 +168,7 @@ const createComment = ({ user_id, post_id, comment }) => {
 
     const postToUpdate = postsJSON.find((post) => post.post_id === parseInt(post_id));
     if (!postToUpdate) {
-        return 400;
+        return { status: 400 };
     }
 
     const lastCommentId =
@@ -191,7 +189,7 @@ const createComment = ({ user_id, post_id, comment }) => {
     savePosts();
 
     console.log("[POST] CREATE comment: ", newComment.comment_id);
-    return 200;
+    return { status: 200, comment_id: newComment.comment_id };
 };
 
 const updateComment = ({ user_id, post_id, comment_id, update_form }) => {
@@ -200,14 +198,17 @@ const updateComment = ({ user_id, post_id, comment_id, update_form }) => {
     );
 
     const postToUpdate = postsJSON.find((post) => post.post_id === parseInt(post_id));
+    if (!postToUpdate) {
+        return { status: 400 };
+    }
+
     const commentToUpdate = postToUpdate.comments_list.find(
         (comment) => comment.comment_id === parseInt(comment_id)
     );
-
     if (!commentToUpdate) {
-        return 400;
+        return { status: 404 };
     } else if (commentToUpdate.user_id !== parseInt(user_id)) {
-        return 409;
+        return { status: 409 };
     }
 
     Object.keys(update_form).forEach((key) => {
@@ -218,7 +219,7 @@ const updateComment = ({ user_id, post_id, comment_id, update_form }) => {
     savePosts();
 
     console.log("[POST] UPDATE comment: ", commentToUpdate.comment_id);
-    return 200;
+    return { status: 200, comment_updated_id: commentToUpdate.comment_id };
 };
 
 const deleteComment = ({ user_id, post_id, comment_id }) => {
@@ -227,14 +228,18 @@ const deleteComment = ({ user_id, post_id, comment_id }) => {
     );
 
     const postToUpdate = postsJSON.find((post) => post.post_id === parseInt(post_id));
+    if (!postToUpdate) {
+        return { status: 400 };
+    }
+
     const commentToDelete = postToUpdate.comments_list.find(
         (comment) => comment.comment_id === parseInt(comment_id)
     );
 
     if (!commentToDelete) {
-        return 400;
+        return { status: 404 };
     } else if (commentToDelete.user_id !== parseInt(user_id)) {
-        return 409;
+        return { status: 409 };
     }
 
     postToUpdate.comments_list = postToUpdate.comments_list.filter(
@@ -243,7 +248,7 @@ const deleteComment = ({ user_id, post_id, comment_id }) => {
     postToUpdate.comments -= 1;
     savePosts();
 
-    return 200;
+    return { status: 200, comment_deleted_id: comment_id };
 };
 
 // ===== COMMON FUNCTIONS =====
