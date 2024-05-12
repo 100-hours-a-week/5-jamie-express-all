@@ -14,7 +14,7 @@ const signUp = async (req, res) => {
 
         res.status(200).json({ user_id: user_id });
     } catch (error) {
-        console.error("Sign up error: ", error);
+        console.error("회원가입 에러: ", error);
         return res.status(500).send("Internal Server Error");
     }
 };
@@ -34,7 +34,7 @@ const signIn = (req, res) => {
             return res.status(200).json({ user_id: user_id });
         }
     } catch (error) {
-        console.error("Login error: ", error);
+        console.error("로그인 에러: ", error);
         return res.status(500).send("Internal Server Error");
     }
 };
@@ -66,13 +66,12 @@ const withdrawal = (req, res) => {
             res.status(200).json({ message: "회원 탈퇴 완료" });
         }
     } catch (error) {
-        console.error("Withdrawal error: ", error);
+        console.error("회원탈퇴 에러: ", error);
         return res.status(500).send("Internal Server Error");
     }
 };
 
 const getUserById = (req, res) => {
-    console.log("req.session: ", req.session);
     if (!req.session.user) {
         res.status(401).json({ message: "로그인 정보 없음" });
         return;
@@ -88,7 +87,7 @@ const getUserById = (req, res) => {
             res.status(200).json(userInfo);
         }
     } catch (error) {
-        console.error("Get user by id error: ", error);
+        console.error("회원정보 불러오기 에러: ", error);
         return res.status(500).send("Internal Server Error");
     }
 };
@@ -116,7 +115,7 @@ const updateUserInfo = (req, res) => {
             res.status(200).json(updatedUser);
         }
     } catch (error) {
-        console.error("Update user info error: ", error);
+        console.error("회원정보 업데이트 에러: ", error);
         return res.status(500).send("Internal Server Error");
     }
 };
@@ -139,7 +138,7 @@ const updateUserPassword = (req, res) => {
             res.status(200).json(updatedUser);
         }
     } catch (error) {
-        console.error("Update user password error: ", error);
+        console.error("회원 비밀번호 업데이트 에러: ", error);
         return res.status(500).send("Internal Server Error");
     }
 };
