@@ -26,6 +26,34 @@ const createUser = ({ email, password, nickname, profile_image }) => {
     return newUser.user_id;
 };
 
+const checkEmail = (email) => {
+    usersJSON = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
+    );
+
+    const user = usersJSON.find((user) => user.email === email);
+    if (user) {
+        return { status: 401 };
+    }
+
+    console.log("[USER] CHECK email: ", email);
+    return { status: 200 };
+};
+
+const checkNickname = (nickname) => {
+    usersJSON = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
+    );
+
+    const user = usersJSON.find((user) => user.nickname === nickname);
+    if (user) {
+        return { status: 401 };
+    }
+
+    console.log("[USER] CHECK nickname: ", nickname);
+    return { status: 200 };
+};
+
 const checkUser = ({ email, password }) => {
     usersJSON = JSON.parse(
         fs.readFileSync(path.join(__dirname, "../data", "users.json"), "utf-8")
@@ -143,6 +171,8 @@ function deleteUserDataById(user_id) {
 
 module.exports = {
     createUser,
+    checkEmail,
+    checkNickname,
     checkUser,
     getUserById,
     updateUser,

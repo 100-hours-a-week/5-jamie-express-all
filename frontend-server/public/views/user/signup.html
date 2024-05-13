@@ -43,50 +43,72 @@
                     <div class="inputbox">
                         <div class="item">
                             <span class="input-name">이메일*</span>
-                            <input
-                                class="input"
-                                id="email"
-                                name="email"
-                                placeholder="이메일을 입력하세요."
-                            />
+                            <div class="input-wrapper">
+                                <input
+                                    class="input"
+                                    id="email"
+                                    name="email"
+                                    placeholder="이메일을 입력하세요."
+                                />
+                                <button
+                                    type="button"
+                                    class="check-btn"
+                                    id="email-check-btn"
+                                >
+                                    중복확인
+                                </button>
+                            </div>
                             <span class="helper" id="email-helper"></span>
                         </div>
                         <div class="item">
                             <span class="input-name">비밀번호*</span>
-                            <input
-                                class="input"
-                                id="password"
-                                name="password"
-                                type="password"
-                                placeholder="비밀번호를 입력하세요."
-                            />
+                            <div class="input-wrapper">
+                                <input
+                                    class="input"
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    placeholder="비밀번호를 입력하세요."
+                                />
+                            </div>
                             <span class="helper" id="password-helper"></span>
                         </div>
                         <div class="item">
                             <span class="input-name">비밀번호 확인*</span>
-                            <input
-                                class="input"
-                                id="password-confirm"
-                                name="password-confirm"
-                                type="password"
-                                placeholder="비밀번호를 한 번 더 입력하세요."
-                            />
+                            <div class="input-wrapper">
+                                <input
+                                    class="input"
+                                    id="password-confirm"
+                                    name="password-confirm"
+                                    type="password"
+                                    placeholder="비밀번호를 한 번 더 입력하세요."
+                                />
+                            </div>
                             <span class="helper" id="password-confirm-helper"></span>
                         </div>
                         <div class="item">
                             <span class="input-name">닉네임*</span>
-                            <input
-                                class="input"
-                                id="nickname"
-                                name="nickname"
-                                placeholder="닉네임을 입력하세요."
-                            />
+                            <div class="input-wrapper">
+                                <input
+                                    class="input"
+                                    id="nickname"
+                                    name="nickname"
+                                    placeholder="닉네임을 입력하세요."
+                                />
+                                <button
+                                    type="button"
+                                    class="check-btn"
+                                    id="nickname-check-btn"
+                                >
+                                    중복확인
+                                </button>
+                            </div>
                             <span class="helper" id="nickname-helper"></span>
                         </div>
                     </div>
                 </form>
                 <button class="submit-btn" id="signup-btn">회원가입</button>
-                <span class="additional" onclick="location.href='./signin.html'"
+                <span class="additional" onclick="location.href='./signin'"
                     >로그인하러 가기</span
                 >
             </div>
