@@ -1,4 +1,4 @@
-import { fetchForm } from "../fetch.js";
+import { fetchRaw, fetchForm } from "../utils/fetch.js";
 
 // ===== DOM Elements =====
 const $signupButton = document.getElementById("signup-btn");
@@ -27,19 +27,19 @@ const passwordRegex =
 let emailValid, passwordValid, passwordConfirmValid, nicknameValid;
 
 // 포커스 아웃 시 유효성 검사 & button 업데이트
-$emailField.addEventListener("blur", () => {
+$emailField.addEventListener("input", () => {
     signUpValidation({ email: $emailField.value });
     updateButtonStyle();
 });
-$passwordField.addEventListener("blur", () => {
+$passwordField.addEventListener("input", () => {
     signUpValidation({ password: $passwordField.value });
     updateButtonStyle();
 });
-$passwordConfirmField.addEventListener("blur", () => {
+$passwordConfirmField.addEventListener("input", () => {
     signUpValidation({ passwordConfirm: $passwordConfirmField.value });
     updateButtonStyle();
 });
-$nicknameField.addEventListener("blur", () => {
+$nicknameField.addEventListener("input", () => {
     signUpValidation({ nickname: $nicknameField.value });
     updateButtonStyle();
 });
@@ -151,10 +151,9 @@ $signupButton.addEventListener("click", (e) => {
 
     fetchForm("/users/signup", "POST", formData)
         .then((res) => {
-            if (res.user_id) {
+            if (res.status === 200) {
+                alert("회원가입이 완료되었습니다.");
                 location.href = "/signin";
-            } else {
-                console.log(res.message);
             }
         })
         .catch((error) => {
