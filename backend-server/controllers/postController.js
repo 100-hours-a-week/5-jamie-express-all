@@ -8,9 +8,16 @@ const getPosts = (req, res) => {
         return;
     }
 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+
     try {
-        const { posts } = Post.getPosts();
-        res.status(200).json(posts);
+        const { posts, total, currentPage } = Post.getPosts(page, limit);
+        res.status(200).json({
+            posts: posts,
+            total: total,
+            currentPage: currentPage,
+        });
     } catch (error) {
         console.error("게시글 불러오기 에러: ", error);
         res.status(500).send("Internal Server Error");

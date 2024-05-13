@@ -6,7 +6,7 @@ let postsJSON;
 
 // ===== POSTS =====
 
-const getPosts = () => {
+const getPosts = (page, limit) => {
     postsJSON = JSON.parse(
         fs.readFileSync(path.join(__dirname, "../data", "posts.json"), "utf-8")
     );
@@ -33,8 +33,12 @@ const getPosts = () => {
         };
     });
 
-    console.log("[POST] GET all posts");
-    return { posts: postList };
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const paginatedPosts = postList.slice(startIndex, endIndex);
+
+    console.log(`[POST] GET posts from ${startIndex} to ${endIndex}`);
+    return { posts: paginatedPosts, total: postList.length, currentPage: page };
 };
 
 const getPostById = (post_id) => {
