@@ -97,6 +97,8 @@ header .block .modal-menu .modal-item {
     display: flex;
     align-items: center;
     flex-direction: column;
+    position: relative;
+    top: 80px;
 }
 
 .helper {
