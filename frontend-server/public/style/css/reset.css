@@ -133,6 +133,6 @@ a {
 
 @font-face {
     font-family: "kopubworld";
-    src: url(../style/font/KoPubWorld\ Dotum\ Light.ttf) format("truetype");
+    src: url(../font/KoPubWorld\ Dotum\ Light.ttf) format("truetype");
     font-weight: 400;
 }
