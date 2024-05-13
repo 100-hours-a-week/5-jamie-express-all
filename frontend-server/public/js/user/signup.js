@@ -67,7 +67,7 @@ $emailCheckButton.addEventListener("click", async (e) => {
         return;
     }
 
-    await fetchRaw(`/users/email-check/${inputEmail}`, "GET").then((res) => {
+    await fetchRaw(`/users/check?email=${inputEmail}`, "GET").then((res) => {
         if (res.status === 401) {
             $emailHelper.textContent = "*중복된 이메일입니다.";
             $emailField.placeholder = inputEmail;
@@ -89,7 +89,7 @@ $nicknameCheckButton.addEventListener("click", async (e) => {
         return;
     }
 
-    await fetchRaw(`/users/nickname-check/${inputNickname}`, "GET").then((res) => {
+    await fetchRaw(`/users/check?nickname=${inputNickname}`, "GET").then((res) => {
         if (res.status === 401) {
             $nicknameHelper.textContent = "*중복된 닉네임입니다.";
             $nicknameField.placeholder = inputNickname;
