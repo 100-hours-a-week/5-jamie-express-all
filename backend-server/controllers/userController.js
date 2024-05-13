@@ -71,6 +71,40 @@ const withdrawal = (req, res) => {
     }
 };
 
+const checkEmail = (req, res) => {
+    const email = req.params.email;
+
+    try {
+        const { status } = User.checkEmail(email);
+
+        if (status === 401) {
+            res.status(401).json({ message: "중복된 이메일" });
+        } else if (status === 200) {
+            res.status(200).json({ message: "사용 가능한 이메일" });
+        }
+    } catch (error) {
+        console.error("이메일 중복 체크 에러: ", error);
+        return res.status(500).send("Internal Server Error");
+    }
+};
+
+const checkNickname = (req, res) => {
+    const nickname = req.params.nickname;
+
+    try {
+        const { status } = User.checkNickname(nickname);
+
+        if (status === 401) {
+            res.status(401).json({ message: "중복된 닉네임" });
+        } else if (status === 200) {
+            res.status(200).json({ message: "사용 가능한 닉네임" });
+        }
+    } catch (error) {
+        console.error("닉네임 중복 체크 에러: ", error);
+        return res.status(500).send("Internal Server Error");
+    }
+};
+
 const getUserById = (req, res) => {
     if (!req.session.user) {
         res.status(401).json({ message: "로그인 정보 없음" });
@@ -147,6 +181,8 @@ module.exports = {
     signUp,
     signIn,
     signOut,
+    checkEmail,
+    checkNickname,
     getUserById,
     updateUserInfo,
     updateUserPassword,

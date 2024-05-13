@@ -18,6 +18,9 @@ const $profileImageLabelField = document.querySelector(
     ".profile-image-wrapper label img"
 );
 
+const $emailCheckButton = document.getElementById("email-check-btn");
+const $nicknameCheckButton = document.getElementById("nickname-check-btn");
+
 // ===== REGEX =====
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 const passwordRegex =
@@ -56,6 +59,50 @@ $profileImageUploadField.addEventListener("change", (e) => {
     $profileImageLabelField.src = URL.createObjectURL(image);
 });
 
+$emailCheckButton.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const inputEmail = $emailField.value;
+    if (!emailValid) {
+        return;
+    }
+
+    await fetchRaw(`/users/email-check/${inputEmail}`, "GET").then((res) => {
+        if (res.status === 401) {
+            $emailHelper.textContent = "*중복된 이메일입니다.";
+            $emailField.placeholder = inputEmail;
+            $emailField.value = "";
+            emailValid = false;
+        } else if (res.status === 200) {
+            $emailHelper.textContent = "";
+            emailValid = true;
+            alert("사용 가능한 이메일입니다.");
+        }
+    });
+});
+
+$nicknameCheckButton.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    const inputNickname = $nicknameField.value;
+    if (!nicknameValid) {
+        return;
+    }
+
+    await fetchRaw(`/users/nickname-check/${inputNickname}`, "GET").then((res) => {
+        if (res.status === 401) {
+            $nicknameHelper.textContent = "*중복된 닉네임입니다.";
+            $nicknameField.placeholder = inputNickname;
+            $nicknameField.value = "";
+            nicknameValid = false;
+        } else if (res.status === 200) {
+            $nicknameHelper.textContent = "";
+            nicknameValid = true;
+            alert("사용 가능한 닉네임입니다.");
+        }
+    });
+});
+
 function signUpValidation({ email, password, passwordConfirm, nickname }) {
     $emailHelper.textContent = "";
     $passwordHelper.textContent = "";
@@ -70,10 +117,6 @@ function signUpValidation({ email, password, passwordConfirm, nickname }) {
             emailValid = false;
             $emailHelper.textContent =
                 "*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)";
-        } else if (email === "중복") {
-            // TODO: add email duplication check
-            emailValid = false;
-            $emailHelper.textContent = "*중복된 이메일입니다.";
         } else {
             emailValid = true;
             $emailHelper.textContent = "";
@@ -116,10 +159,6 @@ function signUpValidation({ email, password, passwordConfirm, nickname }) {
         } else if (nickname.includes(" ")) {
             nicknameValid = false;
             $nicknameHelper.textContent = "*띄어쓰기를 없애주세요.";
-        } else if (nickname === "중복") {
-            // TODO: add nickname duplication check
-            nicknameValid = false;
-            $nicknameHelper.textContent = "*중복된 닉네임입니다.";
         } else if (nickname.length >= 11) {
             nicknameValid = false;
             $nicknameHelper.textContent = "*닉네임은 최대 10자까지 작성 가능합니다.";
