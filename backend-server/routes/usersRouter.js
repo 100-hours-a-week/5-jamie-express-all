@@ -13,8 +13,7 @@ router.post("/signout", UserController.signOut);
 router.delete("/", UserController.withdrawal);
 router.get("/", UserController.getUserById);
 
-router.get("/email-check/:email", UserController.checkEmail);
-router.get("/nickname-check/:nickname", UserController.checkNickname);
+router.get("/check", UserController.checkDuplication);
 
 router.patch("/info", upload.single("profile_image"), UserController.updateUserInfo);
 router.patch("/password", UserController.updateUserPassword);
